@@ -1,0 +1,126 @@
+{
+  "name": "awesome-nest",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "prod": "cross-env NODE_ENV=production pm2 start dist/main.js --name 'awesome-nest'",
+    "stop": "pm2 delete awesome-nest",
+    "build": "tsc -p tsconfig.build.json",
+    "format": "prettier --config .prettierrc --write \"src/**/*.ts\"",
+    "start": "ts-node -r tsconfig-paths/register src/main.ts",
+    "start:dev": "concurrently --handle-input \"wait-on dist/main.js && nodemon\" \"tsc -w -p tsconfig.build.json\" ",
+    "start:debug": "nodemon --config nodemon-debug.json",
+    "prestart:prod": "rimraf dist && npm run build",
+    "start:prod": "cross-env NODE_ENV=production node dist/main.js",
+    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "lint:fix": "tslint -p tsconfig.json -c tslint.json 'src/**/*.ts' --fix",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "migration:generate": "ts-node node_modules/.bin/typeorm migration:generate",
+    "migration:create": "ts-node node_modules/.bin/typeorm migration:crteate",
+    "migration:run": "ts-node node_modules/.bin/typeorm migration:run",
+    "migration:revert": "ts-node node_modules/.bin/typeorm migration:revert",
+    "commit": "git-cz"
+  },
+  "dependencies": {
+    "@nestjs/common": "^6.0.0",
+    "@nestjs/core": "^6.0.0",
+    "@nestjs/jwt": "^6.1.1",
+    "@nestjs/passport": "^6.1.0",
+    "@nestjs/platform-express": "^6.0.0",
+    "@nestjs/swagger": "^3.1.0",
+    "@nestjs/typeorm": "^6.1.3",
+    "@nestjsx/crud": "^4.1.0",
+    "@nestjsx/crud-typeorm": "^4.1.0",
+    "bcryptjs": "^2.4.3",
+    "class-transformer": "^0.2.3",
+    "class-validator": "^0.9.1",
+    "express-rate-limit": "^5.0.0",
+    "hbs": "^4.0.4",
+    "helmet": "^3.20.0",
+    "lodash": "^4.17.15",
+    "log4js": "^4.5.1",
+    "moment": "^2.24.0",
+    "mysql": "^2.17.1",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "reflect-metadata": "^0.1.12",
+    "rimraf": "^2.6.2",
+    "rxjs": "^6.3.3",
+    "stacktrace-js": "^2.0.0",
+    "swagger-ui-express": "^4.0.7",
+    "typeorm": "^0.2.18",
+    "youch": "^2.0.10"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.1.0",
+    "@commitlint/config-conventional": "^8.1.0",
+    "@nestjs/testing": "^6.0.0",
+    "@types/express": "^4.16.0",
+    "@types/jest": "^23.3.13",
+    "@types/node": "^10.12.18",
+    "@types/supertest": "^2.0.7",
+    "commitizen": "^4.0.3",
+    "concurrently": "^4.1.0",
+    "cross-env": "^5.2.0",
+    "cz-conventional-changelog": "^3.0.2",
+    "husky": "^3.0.2",
+    "jest": "^23.6.0",
+    "lint-staged": "^9.2.1",
+    "nodemon": "^1.18.9",
+    "prettier": "^1.15.3",
+    "supertest": "^3.4.1",
+    "ts-jest": "24.0.2",
+    "ts-node": "8.1.0",
+    "tsconfig-paths": "3.8.0",
+    "tslint": "5.16.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "3.4.3",
+    "wait-on": "^3.2.0"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "roots": [
+      "src",
+      "test"
+    ],
+    "testRegex": ".spec.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "coverageDirectory": "../coverage",
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/test/",
+      "<rootDir>/node_modules/",
+      "<rootDir>/src/config/"
+    ],
+    "testEnvironment": "node"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -e $GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.ts": [
+      "npm run format",
+      "npm run lint:fix",
+      "git add"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
+  }
+}
