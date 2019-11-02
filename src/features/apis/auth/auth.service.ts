@@ -5,7 +5,7 @@ import { Repository } from 'typeorm'
 
 import config from '../../../config'
 import { UserEntity } from '../../entities/user.entity'
-import { Token } from '../../interfaces/auth.interface'
+import { IToken } from '../../interfaces/auth.interface'
 
 @Injectable()
 export class AuthService {
@@ -15,7 +15,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  createToken(email: string): Token {
+  createToken(email: string): IToken {
     const accessToken = this.jwtService.sign({ email })
     return {
       expires_in: config.jwt.signOptions.expiresIn,

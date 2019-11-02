@@ -11,8 +11,11 @@ export class ArticleEntity extends CommonEntity {
   @Column()
   content: string
 
-  @Column({ length: 50 })
+  @Column()
   title: string
+
+  @Column()
+  screenshot: string
 
   @Column()
   type: string

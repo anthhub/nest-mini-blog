@@ -2,7 +2,7 @@ import { Body, Controller, Post } from '@nestjs/common'
 import { ApiImplicitBody, ApiUseTags } from '@nestjs/swagger'
 
 import { AccountDto } from '../../dtos/account.dto'
-import { Token } from '../../interfaces/auth.interface'
+import { IToken } from '../../interfaces/auth.interface'
 
 import { AccountService } from './account.service'
 
@@ -19,7 +19,7 @@ export class AccountController {
 
   // 登录
   @Post('signIn')
-  async signIn(@Body() authDto: AccountDto): Promise<Token> {
+  async signIn(@Body() authDto: AccountDto): Promise<IToken> {
     return await this.accountService.signIn(authDto)
   }
 }

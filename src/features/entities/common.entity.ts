@@ -1,13 +1,14 @@
 import { Exclude } from 'class-transformer'
 import {
   CreateDateColumn,
-  PrimaryGeneratedColumn,
+  ObjectIdColumn,
+  ObjectID,
   UpdateDateColumn,
 } from 'typeorm'
 
 export class CommonEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string
+  @ObjectIdColumn()
+  id: ObjectID
 
   @Exclude()
   @CreateDateColumn({

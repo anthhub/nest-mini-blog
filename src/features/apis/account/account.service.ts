@@ -5,7 +5,7 @@ import { Repository } from 'typeorm'
 
 import { AccountDto } from '../../dtos/account.dto'
 import { UserEntity } from '../../entities/user.entity'
-import { Token } from '../../interfaces/auth.interface'
+import { IToken } from '../../interfaces/auth.interface'
 import { AuthService } from '../auth/auth.service'
 
 @Injectable()
@@ -16,7 +16,7 @@ export class AccountService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
   ) {}
-  async signIn(authDto: AccountDto): Promise<Token> {
+  async signIn(authDto: AccountDto): Promise<IToken> {
     return this.authService.createToken(authDto.email)
   }
 

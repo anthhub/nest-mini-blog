@@ -6,10 +6,10 @@ export default {
   orm: {
     type: 'mysql',
     host: 'localhost',
-    port: 3310,
+    port: 3306,
     username: 'root',
     password: '123456',
-    database: 'test',
+    database: 'blog',
     entities: [resolve('./**/*.entity.js')],
     migrations: ['migration/*.ts'],
     dropSchema: false,

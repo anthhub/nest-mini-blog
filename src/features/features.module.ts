@@ -7,17 +7,14 @@ import config from '../config'
 
 import { AccountController } from './apis/account/account.controller'
 import { AccountService } from './apis/account/account.service'
+import { ArticleController } from './apis/article/article.controller'
+import { ArticleService } from './apis/article/article.service'
 import { AuthService } from './apis/auth/auth.service'
 import { JwtStrategy } from './apis/auth/jwt.strategy'
-import { CatsController } from './apis/cats/cats.controller'
-import { CatsService } from './apis/cats/cats.service'
-import { DogsController } from './apis/dogs/dogs.controller'
-import { DogsService } from './apis/dogs/dogs.service'
-import { CatEntity } from './entities/cat.entity'
-import { DogEntity } from './entities/dog.entity'
+import { ArticleEntity } from './entities/article.entity'
 import { UserEntity } from './entities/user.entity'
 
-const ENTITIES = [CatEntity, DogEntity, UserEntity]
+const ENTITIES = [UserEntity, ArticleEntity]
 
 @Module({
   imports: [
@@ -26,14 +23,8 @@ const ENTITIES = [CatEntity, DogEntity, UserEntity]
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register(config.jwt),
   ],
-  controllers: [CatsController, DogsController, AccountController],
-  providers: [
-    CatsService,
-    DogsService,
-    AuthService,
-    JwtStrategy,
-    AccountService,
-  ],
+  controllers: [ArticleController, AccountController],
+  providers: [ArticleService, AuthService, JwtStrategy, AccountService],
   exports: [],
 })
 export class FeaturesModule {}

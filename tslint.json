@@ -5,46 +5,28 @@
     "no-unused-expression": true
   },
   "rules": {
+    "interface-name": true,
     "quotemark": [true, "single"],
     "max-line-length": [true, 150],
     "member-ordering": [false],
-    "interface-name": [false],
+
     "arrow-parens": false,
     "object-literal-sort-keys": false,
-    "semicolon": [
-      true,
-      "never"
-    ],
+    "semicolon": [true, "never"],
     "import-spacing": true,
-    "indent": [
-      true,
-      "spaces"
-    ],
-    "comment-format": [
-      true,
-      "check-space"
-    ],
+    "indent": [true, "spaces"],
+    "comment-format": [true, "check-space"],
     "member-access": [true, "no-public", "check-constructor"],
     "no-arg": true,
     "no-bitwise": true,
-    "no-console": [
-      true,
-      "debug",
-      "info",
-      "time",
-      "timeEnd",
-      "trace"
-    ],
+    "no-console": [true, "debug", "info", "time", "timeEnd", "trace"],
     "no-construct": true,
     "no-debugger": true,
     "no-duplicate-super": true,
     "no-empty": false,
     "no-empty-interface": true,
     "no-eval": true,
-    "no-inferrable-types": [
-      true,
-      "ignore-params"
-    ],
+    "no-inferrable-types": [true, "ignore-params"],
     "ordered-imports": [
       true,
       {
@@ -66,7 +48,7 @@
     "no-duplicate-imports": true,
     "no-import-side-effect": true,
     "no-invalid-this": true,
-    "array-type":[true, "array"],
+    "array-type": [true, "array"],
     "variable-name": {
       "options": [
         "ban-keywords",
