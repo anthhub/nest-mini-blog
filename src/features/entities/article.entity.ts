@@ -1,7 +1,8 @@
 import { Transform } from 'class-transformer'
-import { Column, Entity } from 'typeorm'
+import { Column, Entity, ManyToOne } from 'typeorm'
 
 import { CommonEntity } from './common.entity'
+import { UserEntity } from './user.entity'
 
 @Entity('article')
 export class ArticleEntity extends CommonEntity {
@@ -12,6 +13,9 @@ export class ArticleEntity extends CommonEntity {
   content: string
 
   @Column()
+  html: string
+
+  @Column()
   title: string
 
   @Column()
@@ -19,4 +23,7 @@ export class ArticleEntity extends CommonEntity {
 
   @Column()
   type: string
+
+  @ManyToOne(type => UserEntity, user => user.articles)
+  user: UserEntity
 }

@@ -11,6 +11,8 @@ import { ArticleController } from './apis/article/article.controller'
 import { ArticleService } from './apis/article/article.service'
 import { AuthService } from './apis/auth/auth.service'
 import { JwtStrategy } from './apis/auth/jwt.strategy'
+import { UserController } from './apis/user/user.controller'
+import { UserService } from './apis/user/user.service'
 import { ArticleEntity } from './entities/article.entity'
 import { UserEntity } from './entities/user.entity'
 
@@ -23,8 +25,14 @@ const ENTITIES = [UserEntity, ArticleEntity]
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register(config.jwt),
   ],
-  controllers: [ArticleController, AccountController],
-  providers: [ArticleService, AuthService, JwtStrategy, AccountService],
+  controllers: [ArticleController, AccountController, UserController],
+  providers: [
+    ArticleService,
+    AuthService,
+    JwtStrategy,
+    AccountService,
+    UserService,
+  ],
   exports: [],
 })
 export class FeaturesModule {}

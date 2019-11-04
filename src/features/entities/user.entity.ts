@@ -1,27 +1,30 @@
 import * as bcrypt from 'bcryptjs'
 import { Exclude, Expose } from 'class-transformer'
 import { IsEmail } from 'class-validator'
-import { BeforeInsert, Column, Entity, ObjectID } from 'typeorm'
+import { BeforeInsert, Column, Entity, ObjectID, OneToMany } from 'typeorm'
 
+import { ArticleEntity } from './article.entity'
 import { CommonEntity } from './common.entity'
 
 @Entity('user')
 export class UserEntity extends CommonEntity {
   @Column({
     comment: '邮箱',
-    unique: true,
   })
-  @IsEmail()
   email: string
 
-  @Exclude({ toPlainOnly: true })
+  @Exclude()
   @Column({ comment: '密码' })
   password: string
 
-  @Column()
+  @Column({
+    default: `http://img5.imgtn.bdimg.com/it/u=1595848418,2195099331&fm=26&gp=0.jpg`,
+  })
   avatarHd: string
 
-  @Column()
+  @Column({
+    default: `http://img5.imgtn.bdimg.com/it/u=1595848418,2195099331&fm=26&gp=0.jpg`,
+  })
   avatarLarge: string
 
   @Column()
@@ -36,7 +39,10 @@ export class UserEntity extends CommonEntity {
   @Column()
   jobTitle: string
 
-  @Column()
+  @Column({
+    comment: '手机号',
+    unique: true,
+  })
   mobilePhoneNumber: string
 
   @Column()
@@ -45,18 +51,11 @@ export class UserEntity extends CommonEntity {
   @Column()
   selfDescription: string
 
-  @Expose()
-  get uid(): ObjectID {
-    return this.id
-  }
-
-  @Expose()
-  get objectId(): ObjectID {
-    return this.id
-  }
-
   @Column()
   username: string
+
+  @OneToMany(type => ArticleEntity, article => article.user)
+  articles: ArticleEntity[]
 
   @BeforeInsert()
   async beforeInsert() {

@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { InjectRepository } from '@nestjs/typeorm'
+import { SignInDto } from 'src/features/dtos/signIn.dto'
 import { Repository } from 'typeorm'
 
-import { AccountDto } from '../../dtos/account.dto'
+import { SignUpDto } from '../../dtos/signUp.dto'
 import { UserEntity } from '../../entities/user.entity'
 import { IToken } from '../../interfaces/auth.interface'
 import { AuthService } from '../auth/auth.service'
@@ -16,11 +17,12 @@ export class AccountService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
   ) {}
-  async signIn(authDto: AccountDto): Promise<IToken> {
-    return this.authService.createToken(authDto.email)
+
+  async signIn(signInDto: SignInDto): Promise<IToken> {
+    return this.authService.createToken(signInDto.mobilePhoneNumber)
   }
 
-  async signUp(authDto: AccountDto): Promise<void> {
-    await this.userRepository.save(authDto)
+  async signUp(signUpDto: SignUpDto): Promise<void> {
+    await this.userRepository.save(signUpDto)
   }
 }

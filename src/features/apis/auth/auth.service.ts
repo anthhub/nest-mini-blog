@@ -15,15 +15,18 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  createToken(email: string): IToken {
-    const accessToken = this.jwtService.sign({ email })
+  createToken(mobilePhoneNumber: string): IToken {
+    const accessToken = this.jwtService.sign({ mobilePhoneNumber })
+
     return {
       expires_in: config.jwt.signOptions.expiresIn,
       access_token: accessToken,
     }
   }
 
-  async validateUser(payload: UserEntity): Promise<any> {
-    return await this.userRepository.find({ email: payload.email })
+  async validateUser(payload: UserEntity): Promise<UserEntity> {
+    return await this.userRepository.findOne({
+      mobilePhoneNumber: payload.mobilePhoneNumber,
+    })
   }
 }

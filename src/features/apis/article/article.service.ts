@@ -19,17 +19,12 @@ export class ArticleService {
 
   async getArticle(id: string): Promise<Partial<ArticleEntity>[]> {
     Logger.info('id', id)
-    console.log(
-      '%c%s',
-      'color: #20bd08;font-size:15px',
-      '===TQY===: ArticleService -> id',
-      id,
-    )
+
     const lunarCalendar = await this.lunarCalendarService
       .getLunarCalendar()
       .toPromise()
     Logger.log(lunarCalendar)
-    return await this.articleRepository.findByIds([ObjectId(id)])
+    return await this.articleRepository.findByIds([new ObjectId(id)])
   }
 
   async getArticles(): Promise<IPage<ArticleEntity>> {
