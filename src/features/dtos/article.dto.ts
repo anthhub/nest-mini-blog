@@ -24,9 +24,9 @@ export class CreateArticleDto {
   @IsString()
   readonly screenshot: string
 
-  @ApiModelProperty()
-  @IsString()
-  readonly user: UserDto
+  // @ApiModelProperty()
+  // @IsString()
+  // readonly user: UserDto
 
   @ApiModelProperty()
   @IsString()
