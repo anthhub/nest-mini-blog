@@ -1,6 +1,7 @@
 import { Body, Controller, Post, Request } from '@nestjs/common'
 import { ApiImplicitBody, ApiUseTags } from '@nestjs/swagger'
 import { SignInDto } from 'src/features/dtos/signIn.dto'
+import { UserEntity } from 'src/features/entities/user.entity'
 
 import { SignUpDto } from '../../dtos/signUp.dto'
 import { IToken } from '../../interfaces/auth.interface'
@@ -20,7 +21,7 @@ export class AccountController {
 
   // 登录
   @Post('signIn')
-  async signIn(@Body() signInDto: SignInDto): Promise<IToken> {
+  async signIn(@Body() signInDto: SignInDto): Promise<IToken | UserEntity> {
     return await this.accountService.signIn(signInDto)
   }
 }

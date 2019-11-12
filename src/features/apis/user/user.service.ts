@@ -11,4 +11,12 @@ export class UserService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
   ) {}
+
+  async getUserByMobilePhoneNumber(
+    mobilePhoneNumber: string,
+  ): Promise<UserEntity> {
+    return await this.userRepository.findOne({
+      mobilePhoneNumber,
+    })
+  }
 }

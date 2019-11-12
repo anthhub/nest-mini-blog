@@ -10,11 +10,12 @@ import { CommonEntity } from './common.entity'
 export class UserEntity extends CommonEntity {
   @Column({
     comment: '邮箱',
+    nullable: true,
   })
   email: string
 
   @Exclude()
-  @Column({ comment: '密码' })
+  @Column({ comment: '密码', select: false })
   password: string
 
   @Column({
@@ -51,7 +52,7 @@ export class UserEntity extends CommonEntity {
   @Column()
   selfDescription: string
 
-  @Column()
+  @Column({ unique: true, nullable: true })
   username: string
 
   @OneToMany(type => ArticleEntity, article => article.user)

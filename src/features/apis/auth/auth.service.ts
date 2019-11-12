@@ -24,9 +24,9 @@ export class AuthService {
     }
   }
 
-  async validateUser(payload: UserEntity): Promise<UserEntity> {
+  async validateUser(mobilePhoneNumber: string): Promise<UserEntity> {
     return await this.userRepository.findOne({
-      mobilePhoneNumber: payload.mobilePhoneNumber,
+      mobilePhoneNumber,
     })
   }
 }

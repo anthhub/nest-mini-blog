@@ -12,7 +12,7 @@ export class SignUpDto {
 
   @ApiModelProperty()
   @MinLength(6)
-  @MaxLength(10)
+  @MaxLength(12)
   @IsString()
   readonly password: string
 }

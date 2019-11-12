@@ -40,6 +40,7 @@ export class ArticleController {
   }
 
   @Post()
+  @UseGuards(AuthGuard('jwt'))
   create(@Body() createCatDto: CreateArticleDto): Promise<void> {
     return this.articleService.createArticle(createCatDto)
   }

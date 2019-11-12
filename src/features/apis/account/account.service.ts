@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { InjectRepository } from '@nestjs/typeorm'
 import { SignInDto } from 'src/features/dtos/signIn.dto'
@@ -18,8 +18,18 @@ export class AccountService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  async signIn(signInDto: SignInDto): Promise<IToken> {
-    return this.authService.createToken(signInDto.mobilePhoneNumber)
+  async signIn(signInDto: SignInDto): Promise<IToken | UserEntity> {
+    const user = await this.authService.validateUser(
+      signInDto.mobilePhoneNumber,
+    )
+
+    if (!user) {
+      throw new UnauthorizedException('身份验证失败')
+    }
+
+    const token = this.authService.createToken(signInDto.mobilePhoneNumber)
+
+    return { ...token, ...user }
   }
 
   async signUp(signUpDto: SignUpDto): Promise<void> {
