@@ -1,7 +1,9 @@
+import { ObjectId } from 'mongodb'
+import { UpdateUserDto } from 'src/features/dtos/updateUser.dto'
+import { Repository } from 'typeorm'
+
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { ObjectId } from 'mongodb'
-import { Repository } from 'typeorm'
 
 import { UserEntity } from '../../entities/user.entity'
 
@@ -24,5 +26,9 @@ export class UserService {
     return await this.userRepository.findOne({
       username,
     })
+  }
+
+  async updateUser(curUser: any, updateUserDto: UpdateUserDto): Promise<any> {
+    return await this.userRepository.update(curUser, updateUserDto)
   }
 }

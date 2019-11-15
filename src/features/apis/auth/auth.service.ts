@@ -12,6 +12,12 @@ export class AuthService {
   constructor(private readonly jwtService: JwtService) {}
 
   createToken(mobilePhoneNumber: string): IToken {
+    console.log(
+      '%c%s',
+      'color: #20bd08;font-size:15px',
+      '===TQY===: AuthService -> constructor -> createToken',
+      '生成 token',
+    )
     const accessToken = this.jwtService.sign({ mobilePhoneNumber })
 
     return {

@@ -21,6 +21,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: UserEntity) {
+    console.log(
+      '%c%s',
+      'color: #20bd08;font-size:15px',
+      '===TQY===: JwtStrategy -> validate -> validate',
+      'jwt 校验',
+    )
     const user = await this.userService.getUserByMobilePhoneNumber(
       payload.mobilePhoneNumber,
     )
@@ -28,6 +34,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     if (!user) {
       throw new UnauthorizedException('身份验证失败')
     }
+
     return user
   }
 }
