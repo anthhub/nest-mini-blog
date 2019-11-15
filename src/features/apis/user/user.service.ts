@@ -19,4 +19,10 @@ export class UserService {
       mobilePhoneNumber,
     })
   }
+
+  async getUserByUsername(username: string): Promise<UserEntity> {
+    return await this.userRepository.findOne({
+      username,
+    })
+  }
 }

@@ -10,8 +10,8 @@ import { IToken } from '../../interfaces/auth.interface'
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
+    // @InjectRepository(UserEntity)
+    // private readonly userRepository: Repository<UserEntity>,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -22,11 +22,5 @@ export class AuthService {
       expires_in: config.jwt.signOptions.expiresIn,
       access_token: accessToken,
     }
-  }
-
-  async validateUser(mobilePhoneNumber: string): Promise<UserEntity> {
-    return await this.userRepository.findOne({
-      mobilePhoneNumber,
-    })
   }
 }

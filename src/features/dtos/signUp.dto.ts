@@ -1,18 +1,12 @@
+import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator'
+
 import { ApiModelProperty } from '@nestjs/swagger'
-import { IsPhoneNumber, IsString, MaxLength, MinLength } from 'class-validator'
 
-export class SignUpDto {
-  @ApiModelProperty()
-  @IsPhoneNumber('CN')
-  readonly mobilePhoneNumber: string
+import { SignInDto } from './signIn.dto'
 
+export class SignUpDto extends SignInDto {
   @ApiModelProperty()
+  @IsNotEmpty({ message: '用户名不能为空' })
   @IsString()
   readonly username: string
-
-  @ApiModelProperty()
-  @MinLength(6)
-  @MaxLength(12)
-  @IsString()
-  readonly password: string
 }
