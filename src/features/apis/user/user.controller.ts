@@ -20,4 +20,10 @@ export class UserController {
   async info(@Request() req): Promise<any> {
     return req.user
   }
+
+  // // 更新
+  // @Post('update')
+  // async update(@Body() signInDto: SignInDto): Promise<IToken | UserEntity> {
+  //   return await this.accountService.signIn(signInDto)
+  // }
 }

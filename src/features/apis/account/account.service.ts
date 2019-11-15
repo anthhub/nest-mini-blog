@@ -38,7 +38,9 @@ export class AccountService {
       })
     }
 
-    if (!compareSync(signInDto.password, user.password)) {
+    const { password, ...rest } = user
+
+    if (!compareSync(signInDto.password, password)) {
       throw new UnauthorizedException({
         message: '密码错误',
         status: BusinessErrorStatus.DUPLICATE_PHONE,
@@ -47,7 +49,7 @@ export class AccountService {
 
     const token = this.authService.createToken(signInDto.mobilePhoneNumber)
 
-    return { ...token, ...user }
+    return { ...token, ...rest }
   }
 
   async signUp(signUpDto: SignUpDto): Promise<any> {

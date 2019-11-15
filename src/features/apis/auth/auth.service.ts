@@ -9,11 +9,7 @@ import { IToken } from '../../interfaces/auth.interface'
 
 @Injectable()
 export class AuthService {
-  constructor(
-    // @InjectRepository(UserEntity)
-    // private readonly userRepository: Repository<UserEntity>,
-    private readonly jwtService: JwtService,
-  ) {}
+  constructor(private readonly jwtService: JwtService) {}
 
   createToken(mobilePhoneNumber: string): IToken {
     const accessToken = this.jwtService.sign({ mobilePhoneNumber })
