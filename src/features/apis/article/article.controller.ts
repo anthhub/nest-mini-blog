@@ -1,3 +1,5 @@
+import { EntityManager, Transaction, TransactionManager } from 'typeorm'
+
 import {
   Body,
   ClassSerializerInterceptor,
@@ -6,31 +8,49 @@ import {
   Get,
   Param,
   Post,
+  Query,
   Render,
+  Req,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
 import { ApiBearerAuth, ApiUseTags } from '@nestjs/swagger'
-import { EntityManager, Transaction, TransactionManager } from 'typeorm'
 
 import { CreateArticleDto } from '../../dtos/article.dto'
 import { ArticleEntity } from '../../entities/article.entity'
-
+import { IUserRequest } from '../../interfaces/auth.interface'
 import { ArticleService } from './article.service'
 
 @ApiUseTags('article')
 @ApiBearerAuth()
 @Controller('article')
-// @UseGuards(AuthGuard())
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
 
   @Get('query')
-  // @Render('catsPage')
+  // @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(ClassSerializerInterceptor)
-  getCatsPage(): Promise<any> {
-    return this.articleService.getArticles()
+  getArticles(
+    @Query('own') own: string = 'all',
+    @Query('search') search: string,
+    @Req() req: IUserRequest,
+  ): Promise<any> {
+    const query = { own, search }
+    const { user } = req
+    console.log(
+      '%c%s',
+      'color: #20bd08;font-size:15px',
+      '===TQY===: ArticleController -> constructor -> query',
+      query,
+    )
+    console.log(
+      '%c%s',
+      'color: #20bd08;font-size:15px',
+      '===TQY===: ArticleController -> constructor -> user',
+      user,
+    )
+    return this.articleService.getArticles(query)
   }
 
   @Get(':id')

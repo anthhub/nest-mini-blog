@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { ObjectId } from 'mongodb'
 import { IPage } from 'src/features/interfaces/common.interface'
-import { EntityManager, Repository } from 'typeorm'
+import { EntityManager, Like, Repository } from 'typeorm'
 
 import { LunarCalendarService } from '../../../shared/services/lunar-calendar/lunar-calendar.service'
 import { Logger } from '../../../shared/utils/logger'
@@ -27,8 +27,28 @@ export class ArticleService {
     return await this.articleRepository.findByIds([new ObjectId(id)])
   }
 
-  async getArticles(): Promise<IPage<ArticleEntity>> {
-    const edges = await this.articleRepository.find()
+  async getArticles(query: {
+    own: string
+    search: string
+  }): Promise<IPage<ArticleEntity>> {
+    const { own, search } = query
+
+    const option = search ? { content: /1/ } : {}
+
+    const edges = await this.articleRepository.find({
+      select: ['content'], // 按属性查找
+      where: {
+        // 条件查询
+        content: Like('%1%'),
+      }, // 排序
+      order: {
+        update_at: 'ASC',
+      },
+      skip: 0, // 分页，跳过几项
+      take: 10, // 分页，取几项
+      cache: true,
+    })
+
     return {
       edges,
       pageInfo: { hasNextPage: true, endCursor: '20' },

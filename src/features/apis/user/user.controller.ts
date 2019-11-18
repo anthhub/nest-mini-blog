@@ -1,6 +1,7 @@
 import { SignInDto } from 'src/features/dtos/signIn.dto'
 import { UpdateUserDto } from 'src/features/dtos/updateUser.dto'
 import { UserEntity } from 'src/features/entities/user.entity'
+import { IUserRequest } from 'src/features/interfaces/auth.interface'
 
 import {
   Body,
@@ -8,14 +9,12 @@ import {
   Get,
   Patch,
   Post,
-  Request,
+  Req,
   UseGuards,
 } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
 import { ApiBearerAuth, ApiImplicitBody, ApiUseTags } from '@nestjs/swagger'
 
-import { SignUpDto } from '../../dtos/signUp.dto'
-import { IToken } from '../../interfaces/auth.interface'
 import { UserService } from './user.service'
 
 @ApiUseTags('user')
@@ -27,7 +26,7 @@ export class UserController {
 
   // 登录
   @Get('info')
-  async info(@Request() req): Promise<any> {
+  async info(@Req() req: IUserRequest): Promise<any> {
     return req.user
   }
 
@@ -35,7 +34,7 @@ export class UserController {
   @Patch('update')
   async update(
     @Body() updateUserDto: UpdateUserDto,
-    @Request() req,
+    @Req() req: IUserRequest,
   ): Promise<any> {
     const curUser = req.user
     console.log(

@@ -1,11 +1,10 @@
 import { ObjectId } from 'mongodb'
 import { UpdateUserDto } from 'src/features/dtos/updateUser.dto'
+import { UserEntity } from 'src/features/entities/user.entity'
 import { Repository } from 'typeorm'
 
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-
-import { UserEntity } from '../../entities/user.entity'
 
 @Injectable()
 export class UserService {
@@ -28,7 +27,10 @@ export class UserService {
     })
   }
 
-  async updateUser(curUser: any, updateUserDto: UpdateUserDto): Promise<any> {
+  async updateUser(
+    curUser: UserEntity,
+    updateUserDto: UpdateUserDto,
+  ): Promise<any> {
     return await this.userRepository.update(curUser, updateUserDto)
   }
 }
