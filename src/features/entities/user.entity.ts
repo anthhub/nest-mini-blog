@@ -69,6 +69,7 @@ export class UserEntity extends CommonEntity {
   @prop({
     comment: '邮箱',
     index: true,
+    unique: true,
   })
   email: string
 

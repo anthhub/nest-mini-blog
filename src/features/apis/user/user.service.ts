@@ -22,15 +22,17 @@ export class UserService {
   async getUserByMobilePhoneNumber(
     mobilePhoneNumber: string,
   ): Promise<UserEntity> {
-    return await this.userRepository.findOne({
+    const doc: any = await this.userRepository.findOne({
       mobilePhoneNumber,
     })
+    return doc && doc._doc
   }
 
   async getUserByUsername(username: string): Promise<UserEntity> {
-    return await this.userRepository.findOne({
+    const doc: any = await this.userRepository.findOne({
       username,
     })
+    return doc && doc._doc
   }
 
   async createUser(updateUserDto: SignUpDto): Promise<any> {
