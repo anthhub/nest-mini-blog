@@ -1,29 +1,52 @@
-import { Transform } from 'class-transformer'
-import { Column, Entity, ManyToOne } from 'typeorm'
+// import { Transform } from 'class-transformer'
+// import { prop, Entity, ManyToOne } from 'typeorm'
 
+// import { CommonEntity } from './common.entity'
+// import { UserEntity } from './user.entity'
+
+// @Entity('article')
+// export class ArticleEntity extends CommonEntity {
+//   @prop()
+//   author: string
+
+//   @prop()
+//   content: string
+
+//   @prop()
+//   html: string
+
+//   @prop()
+//   title: string
+
+//   @prop()
+//   screenshot: string
+
+//   @prop()
+//   type: string
+
+//   @ManyToOne(type => UserEntity, user => user.articles)
+//   user: UserEntity
+// }
+
+import { prop, Typegoose } from '@typegoose/typegoose'
 import { CommonEntity } from './common.entity'
-import { UserEntity } from './user.entity'
 
-@Entity('article')
 export class ArticleEntity extends CommonEntity {
-  @Column()
+  @prop()
   author: string
 
-  @Column()
+  @prop()
   content: string
 
-  @Column()
+  @prop()
   html: string
 
-  @Column()
+  @prop()
   title: string
 
-  @Column()
+  @prop()
   screenshot: string
 
-  @Column()
+  @prop()
   type: string
-
-  @ManyToOne(type => UserEntity, user => user.articles)
-  user: UserEntity
 }

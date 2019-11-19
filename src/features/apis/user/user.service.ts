@@ -5,12 +5,18 @@ import { Repository } from 'typeorm'
 
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { ReturnModelType } from '@typegoose/typegoose'
+import { InjectModel } from 'nestjs-typegoose'
+import { SignUpDto } from 'src/features/dtos/signUp.dto'
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
+    // @InjectRepository(UserEntity)
+    // private readonly userRepository: Repository<UserEntity>,
+
+    @InjectModel(UserEntity)
+    private readonly userRepository: ReturnModelType<typeof UserEntity>,
   ) {}
 
   async getUserByMobilePhoneNumber(
@@ -25,6 +31,10 @@ export class UserService {
     return await this.userRepository.findOne({
       username,
     })
+  }
+
+  async createUser(updateUserDto: SignUpDto): Promise<any> {
+    return await new this.userRepository(updateUserDto).save()
   }
 
   async updateUser(

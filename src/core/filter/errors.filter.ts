@@ -17,7 +17,7 @@ export class ExceptionsFilter implements ExceptionFilter {
     const response = ctx.getResponse()
     const request = ctx.getRequest()
 
-    Logger.error('exception', JSON.stringify(exception))
+    Logger.error('exception', exception)
 
     let { message } = exception
 

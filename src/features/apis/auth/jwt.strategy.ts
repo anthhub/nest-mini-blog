@@ -31,9 +31,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       payload.mobilePhoneNumber,
     )
 
-    // if (!user) {
-    // throw new UnauthorizedException('身份验证失败')
-    // }
+    if (!user) {
+      throw new UnauthorizedException('身份验证失败')
+    }
 
     return {}
   }

@@ -22,13 +22,17 @@ export class AccountService {
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService,
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
   ) {}
 
   async signIn(signInDto: SignInDto): Promise<IToken | UserEntity> {
     const user = await this.userService.getUserByMobilePhoneNumber(
       signInDto.mobilePhoneNumber,
+    )
+    console.log(
+      '%c%s',
+      'color: #20bd08;font-size:15px',
+      '===TQY===: AccountService -> user',
+      user,
     )
 
     if (!user) {
@@ -74,7 +78,7 @@ export class AccountService {
       })
     }
 
-    await this.userRepository.save({
+    await this.userService.createUser({
       ...signUpDto,
       password: hashSync(signUpDto.password, 10),
     })

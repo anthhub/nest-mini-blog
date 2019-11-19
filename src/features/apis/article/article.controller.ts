@@ -65,12 +65,12 @@ export class ArticleController {
     return this.articleService.createArticle(createCatDto)
   }
 
-  @Delete(':author')
-  @Transaction()
-  delete(
-    @Param('author') author: string,
-    @TransactionManager() manager: EntityManager,
-  ): Promise<void> {
-    return this.articleService.deleteArticle(author, manager)
-  }
+  // @Delete(':author')
+  // @Transaction()
+  // delete(
+  //   @Param('author') author: string,
+  //   @TransactionManager() manager: EntityManager,
+  // ): Promise<void> {
+  //   return this.articleService.deleteArticle(author, manager)
+  // }
 }

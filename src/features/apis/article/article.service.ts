@@ -1,8 +1,12 @@
-import { Injectable } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
 import { ObjectId } from 'mongodb'
+import { InjectModel } from 'nestjs-typegoose'
+import { Cat } from 'src/features/entities/demo.entity'
 import { IPage } from 'src/features/interfaces/common.interface'
 import { EntityManager, Like, Repository } from 'typeorm'
+
+import { Injectable } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { ReturnModelType } from '@typegoose/typegoose'
 
 import { LunarCalendarService } from '../../../shared/services/lunar-calendar/lunar-calendar.service'
 import { Logger } from '../../../shared/utils/logger'
@@ -12,19 +16,18 @@ import { ArticleEntity } from '../../entities/article.entity'
 @Injectable()
 export class ArticleService {
   constructor(
-    @InjectRepository(ArticleEntity)
-    private readonly articleRepository: Repository<ArticleEntity>,
+    // @InjectRepository(ArticleEntity)
+    // private readonly articleRepository: Repository<ArticleEntity>,
     private readonly lunarCalendarService: LunarCalendarService,
+
+    @InjectModel(ArticleEntity)
+    private readonly articleRepository: ReturnModelType<typeof ArticleEntity>,
   ) {}
 
-  async getArticle(id: string): Promise<Partial<ArticleEntity>[]> {
+  async getArticle(id: string): Promise<any> {
     Logger.info('id', id)
 
-    const lunarCalendar = await this.lunarCalendarService
-      .getLunarCalendar()
-      .toPromise()
-    Logger.log(lunarCalendar)
-    return await this.articleRepository.findByIds([new ObjectId(id)])
+    return ((await this.articleRepository.findById(id)) as any)._doc
   }
 
   async getArticles(query: {
@@ -33,21 +36,24 @@ export class ArticleService {
   }): Promise<IPage<ArticleEntity>> {
     const { own, search } = query
 
-    const option = search ? { content: /1/ } : {}
+    const reg = new RegExp(search, 'i')
 
-    const edges = await this.articleRepository.find({
-      select: ['content'], // 按属性查找
-      where: {
-        // 条件查询
-        content: Like('%1%'),
-      }, // 排序
-      order: {
-        update_at: 'ASC',
+    const option = search
+      ? {
+          $or: [{ title: { $regex: reg } }, { content: { $regex: reg } }],
+        }
+      : {}
+
+    const edges = await this.articleRepository.find(
+      {
+        ...option,
       },
-      skip: 0, // 分页，跳过几项
-      take: 10, // 分页，取几项
-      cache: true,
-    })
+      null,
+      {
+        sort: { update_at: -1 }, // 按照 _id倒序排列
+        limit: 20, // 查询100条
+      },
+    )
 
     return {
       edges,
@@ -55,17 +61,17 @@ export class ArticleService {
     }
   }
 
-  async createArticle(createArticleDto: CreateArticleDto): Promise<void> {
+  async createArticle(createArticleDto: CreateArticleDto): Promise<any> {
     console.log(
       '%c%s',
       'color: #20bd08;font-size:15px',
       '===TQY===: ArticleService -> createArticleDto',
       createArticleDto,
     )
-    await this.articleRepository.save(createArticleDto)
+    return await new this.articleRepository(createArticleDto).save()
   }
 
-  async deleteArticle(author: string, manager: EntityManager): Promise<void> {
-    await manager.delete(ArticleEntity, { author })
-  }
+  // async deleteArticle(author: string, manager: EntityManager): Promise<void> {
+  //   await manager.delete(ArticleEntity, { author })
+  // }
 }

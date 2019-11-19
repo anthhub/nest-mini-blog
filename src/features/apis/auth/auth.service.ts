@@ -15,9 +15,10 @@ export class AuthService {
     console.log(
       '%c%s',
       'color: #20bd08;font-size:15px',
-      '===TQY===: AuthService -> constructor -> createToken',
-      '生成 token',
+      '===TQY===: AuthService -> constructor -> mobilePhoneNumber',
+      mobilePhoneNumber,
     )
+
     const accessToken = this.jwtService.sign({ mobilePhoneNumber })
 
     return {
