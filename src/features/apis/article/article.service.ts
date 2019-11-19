@@ -1,6 +1,5 @@
 import { ObjectId } from 'mongodb'
 import { InjectModel } from 'nestjs-typegoose'
-import { Cat } from 'src/features/entities/demo.entity'
 import { IPage } from 'src/features/interfaces/common.interface'
 import { EntityManager, Like, Repository } from 'typeorm'
 
@@ -27,7 +26,9 @@ export class ArticleService {
   async getArticle(id: string): Promise<any> {
     Logger.info('id', id)
 
-    return ((await this.articleRepository.findById(id)) as any)._doc
+    const doc: any = await this.articleRepository.findById(id)
+
+    return doc && doc._doc
   }
 
   async getArticles(query: {
