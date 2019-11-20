@@ -37,7 +37,7 @@ export class ArticleService {
   }): Promise<IPage<ArticleEntity>> {
     const { own, search } = query
 
-    const reg = new RegExp(search, 'i')
+    const reg = new RegExp(`<([a-zA-Z])+?.*?>*${search}*<\/\1*>`, 'i')
 
     const option = search
       ? {
