@@ -50,7 +50,7 @@ export class ArticleService {
               title: { $regex: new RegExp('.*?' + search.trim() + '.*?', 'i') },
             },
             {
-              content: {
+              html: {
                 $regex: new RegExp(
                   '<[a-zA-Z]+?.*?>.*?' + search.trim() + '.*?</[a-zA-Z]+?.*?>',
                   'i',
