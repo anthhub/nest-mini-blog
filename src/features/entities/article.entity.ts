@@ -1,5 +1,7 @@
-import { arrayProp, prop } from '@typegoose/typegoose'
+import { arrayProp, post, prop, Ref } from '@typegoose/typegoose'
+
 import { CommonEntity } from './common.entity'
+import { UserEntity } from './user.entity'
 
 export class ArticleEntity extends CommonEntity {
   @prop()
@@ -22,4 +24,7 @@ export class ArticleEntity extends CommonEntity {
 
   // @arrayProp({ items: String })
   // tag: string[]
+
+  @prop({ ref: UserEntity })
+  user: Ref<UserEntity>
 }

@@ -61,8 +61,18 @@ export class ArticleController {
 
   @Post()
   @UseGuards(AuthGuard('jwt'))
-  create(@Body() createCatDto: CreateArticleDto): Promise<void> {
-    return this.articleService.createArticle(createCatDto)
+  create(
+    @Body() createCatDto: CreateArticleDto,
+    @Req() req: IUserRequest,
+  ): Promise<void> {
+    const { user } = req
+    console.log(
+      '%c%s',
+      'color: #20bd08;font-size:15px',
+      '===TQY===: ArticleController -> constructor -> user',
+      user,
+    )
+    return this.articleService.createArticle(createCatDto, user)
   }
 
   // @Delete(':author')

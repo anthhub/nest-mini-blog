@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongodb'
 import { InjectModel } from 'nestjs-typegoose'
+import { UserEntity } from 'src/features/entities/user.entity'
 import { IPage } from 'src/features/interfaces/common.interface'
 import { EntityManager, Like, Repository } from 'typeorm'
 
@@ -26,7 +27,7 @@ export class ArticleService {
   async getArticle(id: string): Promise<any> {
     Logger.info('id', id)
 
-    const doc: any = await this.articleRepository.findById(id)
+    const doc: any = await this.articleRepository.findById(id).populate('user')
 
     return doc && doc._doc
   }
@@ -36,12 +37,6 @@ export class ArticleService {
     search: string
   }): Promise<IPage<ArticleEntity>> {
     const { own, search } = query
-    console.log(
-      '%c%s',
-      'color: #20bd08;font-size:15px',
-      '===TQY===: ArticleService -> search',
-      search,
-    )
 
     const option = search
       ? {
@@ -61,16 +56,18 @@ export class ArticleService {
         }
       : {}
 
-    const edges = await this.articleRepository.find(
-      {
-        ...option,
-      },
-      null,
-      {
-        sort: { update_at: -1 }, // 按照 _id倒序排列
-        limit: 20, // 查询100条
-      },
-    )
+    const edges = await this.articleRepository
+      .find(
+        {
+          ...option,
+        },
+        null,
+        {
+          sort: { update_at: -1 }, // 按照 _id倒序排列
+          limit: 20, // 查询100条
+        },
+      )
+      .populate('user')
 
     return {
       edges,
@@ -78,14 +75,14 @@ export class ArticleService {
     }
   }
 
-  async createArticle(createArticleDto: CreateArticleDto): Promise<any> {
-    console.log(
-      '%c%s',
-      'color: #20bd08;font-size:15px',
-      '===TQY===: ArticleService -> createArticleDto',
-      createArticleDto,
-    )
-    return await new this.articleRepository(createArticleDto).save()
+  async createArticle(
+    createArticleDto: CreateArticleDto,
+    user: UserEntity,
+  ): Promise<any> {
+    return await new this.articleRepository({
+      ...createArticleDto,
+      user: user.id,
+    }).save()
   }
 
   // async deleteArticle(author: string, manager: EntityManager): Promise<void> {
