@@ -42,6 +42,10 @@ export class ArticleService {
       ? {
           $or: [
             {
+              type: { $regex: new RegExp('.*?' + search.trim() + '.*?', 'i') },
+            },
+
+            {
               title: { $regex: new RegExp('.*?' + search.trim() + '.*?', 'i') },
             },
             {
