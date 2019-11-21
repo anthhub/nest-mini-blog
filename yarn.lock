@@ -232,6 +232,11 @@
     express "4.17.1"
     multer "1.4.2"
 
+"@nestjs/serve-static@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.npm.taobao.org/@nestjs/serve-static/download/@nestjs/serve-static-1.0.1.tgz#0a4494a927d98c3709ab01739d9380cae631f274"
+  integrity sha1-CkSUqSfZjDcJqwFznZOAyuYx8nQ=
+
 "@nestjs/swagger@^3.1.0":
   version "3.1.0"
   resolved "https://registry.npm.taobao.org/@nestjs/swagger/download/@nestjs/swagger-3.1.0.tgz#eea2d2ef7416a588e5f122b58cd194884e265dc4"

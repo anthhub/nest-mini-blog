@@ -1,8 +1,10 @@
 import * as path from 'path'
+import { IUserRequest } from './../../interfaces/auth.interface'
 
 import {
   Controller,
   Post,
+  Req,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -43,9 +45,21 @@ export class FileController {
       }),
     }),
   )
-  uploadFile(@UploadedFile() file) {
+  uploadFile(@UploadedFile() file, @Req() req: IUserRequest) {
+    console.log(
+      '%c%s',
+      'color: #20bd08;font-size:15px',
+      '===TQY===: FileController -> uploadFile -> req.originalUrl',
+      req.originalUrl,
+      req.host,
+      req.hostname,
+      req.baseUrl,
+      req.url,
+      req.headers,
+      { req },
+    )
     console.log(file)
-    file.url = path.basename(file.path)
+    file.url = `${req.headers.origin}/${file.filename}`
     return file
   }
 }
