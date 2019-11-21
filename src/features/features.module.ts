@@ -3,7 +3,6 @@ import { TypegooseModule } from 'nestjs-typegoose'
 import { Module } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'
-import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm'
 
 import config from '../config'
 import { AccountController } from './apis/account/account.controller'
@@ -12,10 +11,10 @@ import { ArticleController } from './apis/article/article.controller'
 import { ArticleService } from './apis/article/article.service'
 import { AuthService } from './apis/auth/auth.service'
 import { JwtStrategy } from './apis/auth/jwt.strategy'
+import { FileController } from './apis/file/file.controller'
 import { UserController } from './apis/user/user.controller'
 import { UserService } from './apis/user/user.service'
 import { ArticleEntity } from './entities/article.entity'
-
 import { UserEntity } from './entities/user.entity'
 
 const ENTITIES = [UserEntity, ArticleEntity]
@@ -29,7 +28,12 @@ const ENTITIES = [UserEntity, ArticleEntity]
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register(config.jwt),
   ],
-  controllers: [ArticleController, AccountController, UserController],
+  controllers: [
+    ArticleController,
+    AccountController,
+    UserController,
+    FileController,
+  ],
   providers: [
     ArticleService,
     AuthService,
