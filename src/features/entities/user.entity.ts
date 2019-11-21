@@ -16,12 +16,12 @@ export class UserEntity extends CommonEntity {
   password: string
 
   @prop({
-    default: `http://img0.imgtn.bdimg.com/it/u=1147663821,450201591&fm=26&gp=0.jpg`,
+    default: `http://b-ssl.duitang.com/uploads/item/201812/04/20181204120508_emnne.thumb.700_0.jpg`,
   })
   avatarHd: string
 
   @prop({
-    default: `http://img0.imgtn.bdimg.com/it/u=1147663821,450201591&fm=26&gp=0.jpg`,
+    default: `http://b-ssl.duitang.com/uploads/item/201812/04/20181204120508_emnne.thumb.700_0.jpg`,
   })
   avatarLarge: string
 
