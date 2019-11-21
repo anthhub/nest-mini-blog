@@ -15,14 +15,10 @@ export class UserEntity extends CommonEntity {
   @prop({ comment: '密码' })
   password: string
 
-  @prop({
-    default: `http://b-ssl.duitang.com/uploads/item/201812/04/20181204120508_emnne.thumb.700_0.jpg`,
-  })
+  @prop({})
   avatarHd: string
 
-  @prop({
-    default: `http://b-ssl.duitang.com/uploads/item/201812/04/20181204120508_emnne.thumb.700_0.jpg`,
-  })
+  @prop({})
   avatarLarge: string
 
   @prop()
