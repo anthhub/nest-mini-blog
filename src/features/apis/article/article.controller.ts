@@ -15,7 +15,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
-import { ApiBearerAuth, ApiUseTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiImplicitQuery, ApiUseTags } from '@nestjs/swagger'
 
 import { CreateArticleDto } from '../../dtos/article.dto'
 import { ArticleEntity } from '../../entities/article.entity'
@@ -27,10 +27,11 @@ import { ArticleService } from './article.service'
 @Controller('article')
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
-
-  @Get('query')
+  @ApiImplicitQuery({ name: 'own', required: false })
+  @ApiImplicitQuery({ name: 'search', required: false })
   // @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(ClassSerializerInterceptor)
+  @Get('query')
   getArticles(
     @Query('own') own: string = 'all',
     @Query('search') search: string,
@@ -38,18 +39,7 @@ export class ArticleController {
   ): Promise<any> {
     const query = { own, search }
     const { user } = req
-    console.log(
-      '%c%s',
-      'color: #20bd08;font-size:15px',
-      '===TQY===: ArticleController -> constructor -> query',
-      query,
-    )
-    console.log(
-      '%c%s',
-      'color: #20bd08;font-size:15px',
-      '===TQY===: ArticleController -> constructor -> user',
-      user,
-    )
+
     return this.articleService.getArticles(query)
   }
 
@@ -75,12 +65,10 @@ export class ArticleController {
     return this.articleService.createArticle(createCatDto, user)
   }
 
-  // @Delete(':author')
-  // @Transaction()
-  // delete(
-  //   @Param('author') author: string,
-  //   @TransactionManager() manager: EntityManager,
-  // ): Promise<void> {
-  //   return this.articleService.deleteArticle(author, manager)
-  // }
+  @ApiImplicitQuery({ name: 'id', required: false })
+  @UseGuards(AuthGuard('jwt'))
+  @Delete()
+  delete(@Query('id') id?: string): Promise<void> {
+    return this.articleService.deleteArticle(id)
+  }
 }

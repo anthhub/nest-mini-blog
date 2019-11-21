@@ -89,7 +89,11 @@ export class ArticleService {
     }).save()
   }
 
-  // async deleteArticle(author: string, manager: EntityManager): Promise<void> {
-  //   await manager.delete(ArticleEntity, { author })
-  // }
+  async deleteArticle(id: string): Promise<any> {
+    if (id) {
+      return this.articleRepository.findByIdAndRemove(id)
+    } else {
+      return this.articleRepository.remove({})
+    }
+  }
 }
