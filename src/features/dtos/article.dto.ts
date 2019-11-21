@@ -1,5 +1,5 @@
 import { ApiModelProperty } from '@nestjs/swagger'
-import { IsInt, IsString } from 'class-validator'
+import { ArrayNotEmpty, IsArray, IsString } from 'class-validator'
 
 import { UserDto } from './user.dto'
 
@@ -31,4 +31,9 @@ export class CreateArticleDto {
   @ApiModelProperty()
   @IsString()
   readonly type: string
+
+  // @ApiModelProperty()
+  // @ArrayNotEmpty()
+  // @IsArray()
+  // readonly tag: string[]
 }

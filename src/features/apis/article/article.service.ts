@@ -36,12 +36,28 @@ export class ArticleService {
     search: string
   }): Promise<IPage<ArticleEntity>> {
     const { own, search } = query
-
-    const reg = new RegExp(`<([a-zA-Z])+?.*?>*${search}*<\/\1*>`, 'i')
+    console.log(
+      '%c%s',
+      'color: #20bd08;font-size:15px',
+      '===TQY===: ArticleService -> search',
+      search,
+    )
 
     const option = search
       ? {
-          $or: [{ title: { $regex: reg } }, { content: { $regex: reg } }],
+          $or: [
+            {
+              title: { $regex: new RegExp('.*?' + search.trim() + '.*?', 'i') },
+            },
+            {
+              content: {
+                $regex: new RegExp(
+                  '<[a-zA-Z]+?.*?>.*?' + search.trim() + '.*?</[a-zA-Z]+?.*?>',
+                  'i',
+                ),
+              },
+            },
+          ],
         }
       : {}
 

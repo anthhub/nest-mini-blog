@@ -1,4 +1,4 @@
-import { prop } from '@typegoose/typegoose'
+import { arrayProp, prop } from '@typegoose/typegoose'
 import { CommonEntity } from './common.entity'
 
 export class ArticleEntity extends CommonEntity {
@@ -19,4 +19,7 @@ export class ArticleEntity extends CommonEntity {
 
   @prop()
   type: string
+
+  // @arrayProp({ items: String })
+  // tag: string[]
 }
