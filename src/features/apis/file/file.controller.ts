@@ -35,12 +35,16 @@ export class FileController {
   @Post('upload')
   @UseInterceptors(
     FileInterceptor('file', {
+      limits: {
+        fileSize: 255,
+      },
       storage: multer.diskStorage({
         destination: (req, file, cb) => {
           cb(null, './upload/')
         },
         filename: (req, file, cb) => {
-          cb(null, file.originalname.replace('.', `-${Date.now()}.`))
+          const name = file.originalname.split('.')
+          cb(null, `image-${Date.now()}.${name[1]}`)
         },
       }),
     }),
