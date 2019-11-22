@@ -24,6 +24,20 @@ export class ArticleService {
     private readonly articleRepository: ReturnModelType<typeof ArticleEntity>,
   ) {}
 
+  async updateArticle(
+    id: string,
+    updateArticleDto: CreateArticleDto,
+  ): Promise<any> {
+    Logger.info('id', id)
+
+    const doc: any = await this.articleRepository.findByIdAndUpdate(
+      id,
+      updateArticleDto,
+    )
+
+    return doc && doc._doc
+  }
+
   async getArticle(id: string): Promise<any> {
     Logger.info('id', id)
 

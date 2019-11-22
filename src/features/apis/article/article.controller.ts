@@ -7,6 +7,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   Render,
@@ -49,6 +50,16 @@ export class ArticleController {
     return this.articleService.getArticle(id)
   }
 
+  @Patch(':id')
+  @UseGuards(AuthGuard('jwt'))
+  @UseInterceptors(ClassSerializerInterceptor)
+  update(
+    @Param('id') id: string,
+    @Body() updateArticleDto: CreateArticleDto,
+  ): Promise<Partial<ArticleEntity>[]> {
+    return this.articleService.updateArticle(id, updateArticleDto)
+  }
+
   @Post()
   @UseGuards(AuthGuard('jwt'))
   create(
@@ -56,12 +67,7 @@ export class ArticleController {
     @Req() req: IUserRequest,
   ): Promise<void> {
     const { user } = req
-    console.log(
-      '%c%s',
-      'color: #20bd08;font-size:15px',
-      '===TQY===: ArticleController -> constructor -> user',
-      user,
-    )
+
     return this.articleService.createArticle(createCatDto, user)
   }
 
