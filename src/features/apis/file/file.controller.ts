@@ -1,6 +1,3 @@
-import * as path from 'path'
-import { IUserRequest } from './../../interfaces/auth.interface'
-
 import {
   Controller,
   Post,
@@ -19,7 +16,10 @@ import {
   ApiUseTags,
 } from '@nestjs/swagger'
 
+import { IUserRequest } from '../../interfaces/auth.interface'
+
 import multer = require('multer')
+import { hostname } from 'os'
 
 @ApiUseTags('file')
 @ApiBearerAuth()
@@ -59,7 +59,7 @@ export class FileController {
       { req },
     )
     console.log(file)
-    file.url = `${req.headers.origin}/${file.filename}`
+    file.url = `${hostname()}/${file.filename}`
     return file
   }
 }
