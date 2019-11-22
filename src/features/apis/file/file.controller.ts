@@ -21,26 +21,6 @@ import { IUserRequest } from '../../interfaces/auth.interface'
 import multer = require('multer')
 import * as os from 'os'
 
-function getIPAddress() {
-  const interfaces = os.networkInterfaces()
-  for (const devName in interfaces) {
-    if (devName) {
-      const iface = interfaces[devName]
-      for (const alias of iface) {
-        if (
-          alias.family === 'IPv4' &&
-          alias.address !== '127.0.0.1' &&
-          !alias.internal
-        ) {
-          return alias.address
-        }
-      }
-    }
-  }
-}
-
-const ip = getIPAddress()
-console.log('%c%s', 'color: #20bd08;font-size:15px', '===TQY===: ip', ip)
 @ApiUseTags('file')
 @ApiBearerAuth()
 @Controller('file')
@@ -66,7 +46,7 @@ export class FileController {
     }),
   )
   uploadFile(@UploadedFile() file, @Req() req: IUserRequest) {
-    file.url = `${ip}/${file.filename}`
+    file.url = `${'http://101.132.79.152'}/${file.filename}`
     console.log(file)
     return file
   }
