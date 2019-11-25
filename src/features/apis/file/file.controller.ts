@@ -36,7 +36,7 @@ export class FileController {
   @UseInterceptors(
     FileInterceptor('file', {
       limits: {
-        fileSize: 255,
+        fileSize: 5242880,
       },
       storage: multer.diskStorage({
         destination: (req, file, cb) => {
