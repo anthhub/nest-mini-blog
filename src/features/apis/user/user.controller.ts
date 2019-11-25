@@ -1,20 +1,25 @@
 import { SignInDto } from 'src/features/dtos/signIn.dto'
 import { UpdateUserDto } from 'src/features/dtos/updateUser.dto'
+import { ArticleEntity } from 'src/features/entities/article.entity'
 import { UserEntity } from 'src/features/entities/user.entity'
 import { IUserRequest } from 'src/features/interfaces/auth.interface'
 
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Get,
+  Param,
   Patch,
   Post,
   Req,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
 import { ApiBearerAuth, ApiImplicitBody, ApiUseTags } from '@nestjs/swagger'
 
+import { ArticleService } from '../article/article.service'
 import { UserService } from './user.service'
 
 @ApiUseTags('user')
@@ -22,12 +27,21 @@ import { UserService } from './user.service'
 @Controller('user')
 @UseGuards(AuthGuard('jwt'))
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly articleService: ArticleService,
+  ) {}
 
   // 登录
   @Get('info')
   async info(@Req() req: IUserRequest): Promise<any> {
     return req.user
+  }
+
+  @Get('/:id/article')
+  @UseInterceptors(ClassSerializerInterceptor)
+  findOne(@Param('id') id: string): Promise<any> {
+    return this.articleService.getArticlesByUserId(id)
   }
 
   // 更新

@@ -28,6 +28,7 @@ import { ArticleService } from './article.service'
 @Controller('article')
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
+
   @ApiImplicitQuery({ name: 'own', required: false })
   @ApiImplicitQuery({ name: 'search', required: false })
   // @UseGuards(AuthGuard('jwt'))
@@ -36,10 +37,10 @@ export class ArticleController {
   getArticles(
     @Query('own') own: string = 'all',
     @Query('search') search: string,
-    @Req() req: IUserRequest,
+    // @Req() req: IUserRequest,
   ): Promise<any> {
     const query = { own, search }
-    const { user } = req
+    // const { user } = req
 
     return this.articleService.getArticles(query)
   }
