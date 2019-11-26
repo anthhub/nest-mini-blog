@@ -12,7 +12,7 @@ export class UserEntity extends CommonEntity {
   })
   email: string
 
-  @prop({ comment: '密码' })
+  @prop({ comment: '密码', select: false })
   password: string
 
   @prop({})

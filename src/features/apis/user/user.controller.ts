@@ -34,6 +34,7 @@ export class UserController {
 
   // 登录
   @Get('info')
+  @UseInterceptors(ClassSerializerInterceptor)
   async info(@Req() req: IUserRequest): Promise<any> {
     return req.user
   }

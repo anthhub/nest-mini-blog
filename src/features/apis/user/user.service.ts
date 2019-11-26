@@ -22,9 +22,11 @@ export class UserService {
   async getUserByMobilePhoneNumber(
     mobilePhoneNumber: string,
   ): Promise<UserEntity> {
-    const doc: any = await this.userRepository.findOne({
-      mobilePhoneNumber,
-    })
+    const doc: any = await this.userRepository
+      .findOne({
+        mobilePhoneNumber,
+      })
+      .select('+password')
     return doc && doc._doc
   }
 

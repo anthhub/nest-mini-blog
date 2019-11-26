@@ -95,19 +95,11 @@ export class ArticleService {
 
   async getArticlesByUserId(id: string): Promise<IPage<ArticleEntity>> {
     const edges = await this.articleRepository
-      .find({}, null, {
+      .find({ user: id }, null, {
         sort: { update_at: -1 }, // 按照 _id倒序排列
         // limit: 20, // 查询100条
       })
-      .populate(
-        {
-          path: 'user',
-          match: { id },
-          // select: 'name',
-          // options: { limit: 5 },
-        },
-        { password: 0 },
-      )
+      .populate('user')
 
     return {
       edges,
