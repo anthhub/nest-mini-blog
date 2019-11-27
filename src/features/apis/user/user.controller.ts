@@ -83,23 +83,23 @@ export class UserController {
     return this.followService.getFollowersByUserId(id)
   }
 
-  @Get('/:id/followees')
+  @Get('/:id/following')
   @UseInterceptors(ClassSerializerInterceptor)
-  myFollowees(@Param('id') id: string): Promise<any> {
-    return this.followService.getFolloweesByUserId(id)
+  myFollowing(@Param('id') id: string): Promise<any> {
+    return this.followService.getFollowingByUserId(id)
   }
 
   // 关注我的人
   @Get('/:id/followers/count')
   @UseInterceptors(ClassSerializerInterceptor)
-  myFollowerCount(@Param('id') id: string): Promise<any> {
+  myFollowersCount(@Param('id') id: string): Promise<any> {
     return this.followService.getFollowersCount(id)
   }
 
   // 我关注的人
-  @Get('/:id/followees/count')
+  @Get('/:id/following/count')
   @UseInterceptors(ClassSerializerInterceptor)
-  myFolloweeCount(@Param('id') id: string): Promise<any> {
-    return this.followService.getFolloweesCount(id)
+  myFollowingCount(@Param('id') id: string): Promise<any> {
+    return this.followService.getFollowingCount(id)
   }
 }

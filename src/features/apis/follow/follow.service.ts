@@ -14,13 +14,13 @@ export class FollowService {
     private readonly followRepository: ReturnModelType<typeof FollowEntity>,
   ) {}
 
-  async getFollowersByUserId(id: string): Promise<IPage<FollowEntity>> {
+  async getFollowersByUserId(following: string): Promise<IPage<FollowEntity>> {
     const edges = await this.followRepository
-      .find({ followee: id }, null, {
+      .find({ following }, null, {
         sort: { update_at: -1 }, // 按照 _id倒序排列
         // limit: 20, // 查询100条
       })
-      .populate({ path: 'user' })
+      .populate({ path: 'follower' })
 
     return {
       edges,
@@ -28,13 +28,13 @@ export class FollowService {
     }
   }
 
-  async getFolloweesByUserId(id: string): Promise<IPage<FollowEntity>> {
+  async getFollowingByUserId(follower: string): Promise<IPage<FollowEntity>> {
     const edges = await this.followRepository
-      .find({ user: id }, null, {
+      .find({ follower }, null, {
         sort: { update_at: -1 }, // 按照 _id倒序排列
         // limit: 20, // 查询100条
       })
-      .populate({ path: 'followee' })
+      .populate({ path: 'following' })
 
     return {
       edges,
@@ -42,10 +42,10 @@ export class FollowService {
     }
   }
 
-  async putUserFollow(followeeId: string, userId: ObjectId): Promise<any> {
+  async putUserFollow(following: string, follower: ObjectId): Promise<any> {
     const obj: any = await this.followRepository.findOne({
-      followee: followeeId,
-      user: userId,
+      following,
+      follower,
     })
 
     if (obj) {
@@ -53,23 +53,23 @@ export class FollowService {
     }
 
     return await new this.followRepository({
-      followee: followeeId,
-      user: userId,
+      following,
+      follower,
     }).save()
   }
 
-  async deleteUserFollow(followeeId: string, userId: ObjectId): Promise<any> {
+  async deleteUserFollow(following: string, follower: ObjectId): Promise<any> {
     return await this.followRepository.findOneAndRemove({
-      followee: followeeId,
-      user: userId,
+      following,
+      follower,
     })
   }
 
-  async getFolloweesCount(id: string): Promise<any> {
-    return await this.followRepository.count({ user: id })
+  async getFollowingCount(follower: string): Promise<any> {
+    return await this.followRepository.count({ follower })
   }
 
-  async getFollowersCount(id: string): Promise<any> {
-    return await this.followRepository.count({ followee: id })
+  async getFollowersCount(following: string): Promise<any> {
+    return await this.followRepository.count({ following })
   }
 }

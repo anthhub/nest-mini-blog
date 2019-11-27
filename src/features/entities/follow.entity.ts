@@ -6,8 +6,8 @@ import { UserEntity } from './user.entity'
 
 export class FollowEntity extends CommonEntity {
   @prop({ ref: UserEntity, index: true })
-  followee: Ref<UserEntity>
+  following: Ref<UserEntity>
 
   @prop({ ref: UserEntity, index: true })
-  user: Ref<UserEntity>
+  follower: Ref<UserEntity>
 }

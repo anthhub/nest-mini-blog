@@ -29,29 +29,29 @@ import { FollowService } from './follow.service'
 export class FollowController {
   constructor(private readonly followService: FollowService) {}
 
-  @Put('/:followeeId')
+  @Put('/:following')
   @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(ClassSerializerInterceptor)
   follow(
-    @Param('followeeId') followeeId: string,
+    @Param('following') following: string,
     @Req() req: IUserRequest,
   ): Promise<Partial<ArticleEntity>[]> {
     const {
       user: { id: userId },
     } = req
-    return this.followService.putUserFollow(followeeId, userId)
+    return this.followService.putUserFollow(following, userId)
   }
 
-  @Delete('/:followeeId')
+  @Delete('/:following')
   @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(ClassSerializerInterceptor)
   unfollow(
-    @Param('followeeId') followeeId: string,
+    @Param('following') following: string,
     @Req() req: IUserRequest,
   ): Promise<Partial<ArticleEntity>[]> {
     const {
       user: { id: userId },
     } = req
-    return this.followService.deleteUserFollow(followeeId, userId)
+    return this.followService.deleteUserFollow(following, userId)
   }
 }
