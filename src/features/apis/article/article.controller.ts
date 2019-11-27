@@ -9,6 +9,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
   Query,
   Render,
   Req,
@@ -29,25 +30,22 @@ import { ArticleService } from './article.service'
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
 
+  @Get('query')
   @ApiImplicitQuery({ name: 'own', required: false })
   @ApiImplicitQuery({ name: 'search', required: false })
-  // @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(ClassSerializerInterceptor)
-  @Get('query')
   getArticles(
     @Query('own') own: string = 'all',
     @Query('search') search: string,
-    // @Req() req: IUserRequest,
   ): Promise<any> {
     const query = { own, search }
-    // const { user } = req
 
     return this.articleService.getArticles(query)
   }
 
   @Get(':id')
   @UseInterceptors(ClassSerializerInterceptor)
-  findOne(@Param('id') id: string): Promise<Partial<ArticleEntity>[]> {
+  getArticleById(@Param('id') id: string): Promise<Partial<ArticleEntity>[]> {
     return this.articleService.getArticle(id)
   }
 
@@ -67,15 +65,43 @@ export class ArticleController {
     @Body() createCatDto: CreateArticleDto,
     @Req() req: IUserRequest,
   ): Promise<void> {
-    const { user } = req
+    const {
+      user: { id: userId },
+    } = req
 
-    return this.articleService.createArticle(createCatDto, user)
+    return this.articleService.createArticle(createCatDto, userId)
   }
 
+  @Delete()
   @ApiImplicitQuery({ name: 'id', required: false })
   @UseGuards(AuthGuard('jwt'))
-  @Delete()
   delete(@Query('id') id?: string): Promise<void> {
     return this.articleService.deleteArticle(id)
+  }
+
+  @Put('/like/:id')
+  @UseGuards(AuthGuard('jwt'))
+  @UseInterceptors(ClassSerializerInterceptor)
+  like(
+    @Param('id') articleId: string,
+    @Req() req: IUserRequest,
+  ): Promise<Partial<ArticleEntity>[]> {
+    const {
+      user: { id: userId },
+    } = req
+    return this.articleService.putArticleLike(articleId, userId)
+  }
+
+  @Delete('/like/:id')
+  @UseGuards(AuthGuard('jwt'))
+  @UseInterceptors(ClassSerializerInterceptor)
+  unlike(
+    @Param('id') articleId: string,
+    @Req() req: IUserRequest,
+  ): Promise<Partial<ArticleEntity>[]> {
+    const {
+      user: { id: userId },
+    } = req
+    return this.articleService.deleteArticleLike(articleId, userId)
   }
 }

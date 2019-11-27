@@ -1,14 +1,12 @@
 import { ObjectId } from 'mongodb'
 import { InjectModel } from 'nestjs-typegoose'
+import { LikeEntity } from 'src/features/entities/like.entity'
 import { UserEntity } from 'src/features/entities/user.entity'
 import { IPage } from 'src/features/interfaces/common.interface'
-import { EntityManager, Like, Repository } from 'typeorm'
 
 import { Injectable } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
 import { ReturnModelType } from '@typegoose/typegoose'
 
-import { LunarCalendarService } from '../../../shared/services/lunar-calendar/lunar-calendar.service'
 import { Logger } from '../../../shared/utils/logger'
 import { CreateArticleDto } from '../../dtos/article.dto'
 import { ArticleEntity } from '../../entities/article.entity'
@@ -16,12 +14,10 @@ import { ArticleEntity } from '../../entities/article.entity'
 @Injectable()
 export class ArticleService {
   constructor(
-    // @InjectRepository(ArticleEntity)
-    // private readonly articleRepository: Repository<ArticleEntity>,
-    private readonly lunarCalendarService: LunarCalendarService,
-
     @InjectModel(ArticleEntity)
     private readonly articleRepository: ReturnModelType<typeof ArticleEntity>,
+    @InjectModel(LikeEntity)
+    private readonly likeRepository: ReturnModelType<typeof LikeEntity>,
   ) {}
 
   async updateArticle(
@@ -107,13 +103,27 @@ export class ArticleService {
     }
   }
 
+  async getLikesByUserId(id: string): Promise<IPage<ArticleEntity>> {
+    const edges = await this.likeRepository
+      .find({ user: id }, null, {
+        sort: { update_at: -1 }, // 按照 _id倒序排列
+        // limit: 20, // 查询100条
+      })
+      .populate({ path: 'article', populate: 'user' })
+
+    return {
+      edges: edges.map(item => item.article) as ArticleEntity[],
+      pageInfo: { hasNextPage: true, endCursor: '20' },
+    }
+  }
+
   async createArticle(
     createArticleDto: CreateArticleDto,
-    user: UserEntity,
+    userId: ObjectId,
   ): Promise<any> {
     return await new this.articleRepository({
       ...createArticleDto,
-      user: user.id,
+      user: userId,
     }).save()
   }
 
@@ -121,7 +131,30 @@ export class ArticleService {
     if (id) {
       return this.articleRepository.findByIdAndRemove(id)
     } else {
-      return this.articleRepository.remove({})
+      // return this.articleRepository.remove({})
     }
+  }
+
+  async putArticleLike(articleId: string, userId: ObjectId): Promise<any> {
+    const obj = this.likeRepository.findOne({
+      article: articleId,
+      user: userId,
+    })
+
+    if (obj) {
+      return
+    }
+
+    return await new this.likeRepository({
+      article: articleId,
+      user: userId,
+    }).save()
+  }
+
+  async deleteArticleLike(articleId: string, userId: ObjectId): Promise<any> {
+    return this.likeRepository.findOneAndRemove({
+      article: articleId,
+      user: userId,
+    })
   }
 }

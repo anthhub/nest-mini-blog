@@ -15,9 +15,10 @@ import { FileController } from './apis/file/file.controller'
 import { UserController } from './apis/user/user.controller'
 import { UserService } from './apis/user/user.service'
 import { ArticleEntity } from './entities/article.entity'
+import { LikeEntity } from './entities/like.entity'
 import { UserEntity } from './entities/user.entity'
 
-const ENTITIES = [UserEntity, ArticleEntity]
+const ENTITIES = [UserEntity, ArticleEntity, LikeEntity]
 
 @Module({
   imports: [

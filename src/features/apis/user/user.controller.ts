@@ -41,8 +41,14 @@ export class UserController {
 
   @Get('/:id/article')
   @UseInterceptors(ClassSerializerInterceptor)
-  findOne(@Param('id') id: string): Promise<any> {
+  myArticles(@Param('id') id: string): Promise<any> {
     return this.articleService.getArticlesByUserId(id)
+  }
+
+  @Get('/:id/like')
+  @UseInterceptors(ClassSerializerInterceptor)
+  myLikes(@Param('id') id: string): Promise<any> {
+    return this.articleService.getLikesByUserId(id)
   }
 
   // 更新
