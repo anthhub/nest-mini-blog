@@ -12,20 +12,23 @@ import { ArticleService } from './apis/article/article.service'
 import { AuthService } from './apis/auth/auth.service'
 import { JwtStrategy } from './apis/auth/jwt.strategy'
 import { FileController } from './apis/file/file.controller'
+import { FollowController } from './apis/follow/follow.controller'
+import { FollowService } from './apis/follow/follow.service'
+import { LikeController } from './apis/like/like.controller'
+import { LikeService } from './apis/like/like.service'
 import { UserController } from './apis/user/user.controller'
 import { UserService } from './apis/user/user.service'
 import { ArticleEntity } from './entities/article.entity'
+import { FollowEntity } from './entities/follow.entity'
 import { LikeEntity } from './entities/like.entity'
 import { UserEntity } from './entities/user.entity'
 
-const ENTITIES = [UserEntity, ArticleEntity, LikeEntity]
+const ENTITIES = [UserEntity, ArticleEntity, LikeEntity, FollowEntity]
 
 @Module({
   imports: [
     TypegooseModule.forRoot('mongodb://root:123456@localhost:27017/blog', {}),
     TypegooseModule.forFeature([...ENTITIES]),
-    // TypeOrmModule.forRoot(config.orm as TypeOrmModuleOptions),
-    // TypeOrmModule.forFeature([...ENTITIES]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register(config.jwt),
   ],
@@ -34,6 +37,8 @@ const ENTITIES = [UserEntity, ArticleEntity, LikeEntity]
     AccountController,
     UserController,
     FileController,
+    LikeController,
+    FollowController,
   ],
   providers: [
     ArticleService,
@@ -41,6 +46,8 @@ const ENTITIES = [UserEntity, ArticleEntity, LikeEntity]
     JwtStrategy,
     AccountService,
     UserService,
+    LikeService,
+    FollowService,
   ],
   exports: [],
 })

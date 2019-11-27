@@ -20,6 +20,8 @@ import { AuthGuard } from '@nestjs/passport'
 import { ApiBearerAuth, ApiImplicitBody, ApiUseTags } from '@nestjs/swagger'
 
 import { ArticleService } from '../article/article.service'
+import { FollowService } from '../follow/follow.service'
+import { LikeService } from '../like/like.service'
 import { UserService } from './user.service'
 
 @ApiUseTags('user')
@@ -30,26 +32,9 @@ export class UserController {
   constructor(
     private readonly userService: UserService,
     private readonly articleService: ArticleService,
+    private readonly likeService: LikeService,
+    private readonly followService: FollowService,
   ) {}
-
-  // 登录
-  @Get('info')
-  @UseInterceptors(ClassSerializerInterceptor)
-  async info(@Req() req: IUserRequest): Promise<any> {
-    return req.user
-  }
-
-  @Get('/:id/article')
-  @UseInterceptors(ClassSerializerInterceptor)
-  myArticles(@Param('id') id: string): Promise<any> {
-    return this.articleService.getArticlesByUserId(id)
-  }
-
-  @Get('/:id/like')
-  @UseInterceptors(ClassSerializerInterceptor)
-  myLikes(@Param('id') id: string): Promise<any> {
-    return this.articleService.getLikesByUserId(id)
-  }
 
   // 更新
   @Patch('update')
@@ -58,7 +43,63 @@ export class UserController {
     @Req() req: IUserRequest,
   ): Promise<any> {
     const curUser = req.user
-
     return await this.userService.updateUser(curUser, updateUserDto)
+  }
+
+  // 登录
+  @Get('info')
+  @UseInterceptors(ClassSerializerInterceptor)
+  async info(@Req() req: IUserRequest): Promise<any> {
+    return req.user
+  }
+
+  @Get('/:id/articles')
+  @UseInterceptors(ClassSerializerInterceptor)
+  myArticles(@Param('id') id: string): Promise<any> {
+    return this.articleService.getArticlesByUserId(id)
+  }
+
+  @Get('/:id/likes')
+  @UseInterceptors(ClassSerializerInterceptor)
+  myLikes(@Param('id') id: string): Promise<any> {
+    return this.likeService.getLikesByUserId(id)
+  }
+
+  @Get('/:id/likes/count')
+  @UseInterceptors(ClassSerializerInterceptor)
+  myLikesCount(@Param('id') id: string): Promise<any> {
+    return this.likeService.getLikesCount(id)
+  }
+
+  @Get('/:id/liked/count')
+  @UseInterceptors(ClassSerializerInterceptor)
+  myLikedCount(@Param('id') id: string): Promise<any> {
+    return this.likeService.getLikedCount(id)
+  }
+
+  @Get('/:id/followers')
+  @UseInterceptors(ClassSerializerInterceptor)
+  myFollowers(@Param('id') id: string): Promise<any> {
+    return this.followService.getFollowersByUserId(id)
+  }
+
+  @Get('/:id/followees')
+  @UseInterceptors(ClassSerializerInterceptor)
+  myFollowees(@Param('id') id: string): Promise<any> {
+    return this.followService.getFolloweesByUserId(id)
+  }
+
+  // 关注我的人
+  @Get('/:id/followers/count')
+  @UseInterceptors(ClassSerializerInterceptor)
+  myFollowerCount(@Param('id') id: string): Promise<any> {
+    return this.followService.getFollowersCount(id)
+  }
+
+  // 我关注的人
+  @Get('/:id/followees/count')
+  @UseInterceptors(ClassSerializerInterceptor)
+  myFolloweeCount(@Param('id') id: string): Promise<any> {
+    return this.followService.getFolloweesCount(id)
   }
 }

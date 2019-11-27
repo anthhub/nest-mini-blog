@@ -78,38 +78,4 @@ export class ArticleController {
   delete(@Query('id') id?: string): Promise<void> {
     return this.articleService.deleteArticle(id)
   }
-
-  @Put('/like/:id')
-  @UseGuards(AuthGuard('jwt'))
-  @UseInterceptors(ClassSerializerInterceptor)
-  like(
-    @Param('id') articleId: string,
-    @Req() req: IUserRequest,
-  ): Promise<Partial<ArticleEntity>[]> {
-    const {
-      user: { id: userId },
-    } = req
-    return this.articleService.putArticleLike(articleId, userId)
-  }
-
-  @Delete('/like/:id')
-  @UseGuards(AuthGuard('jwt'))
-  @UseInterceptors(ClassSerializerInterceptor)
-  unlike(
-    @Param('id') articleId: string,
-    @Req() req: IUserRequest,
-  ): Promise<Partial<ArticleEntity>[]> {
-    const {
-      user: { id: userId },
-    } = req
-    return this.articleService.deleteArticleLike(articleId, userId)
-  }
-
-  @Get('/like/:id')
-  @UseInterceptors(ClassSerializerInterceptor)
-  countArticleLike(
-    @Param('id') articleId: string,
-  ): Promise<Partial<ArticleEntity>[]> {
-    return this.articleService.countArticleLike(articleId)
-  }
 }
