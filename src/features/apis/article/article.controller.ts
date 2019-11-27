@@ -104,4 +104,12 @@ export class ArticleController {
     } = req
     return this.articleService.deleteArticleLike(articleId, userId)
   }
+
+  @Get('/like/:id')
+  @UseInterceptors(ClassSerializerInterceptor)
+  countArticleLike(
+    @Param('id') articleId: string,
+  ): Promise<Partial<ArticleEntity>[]> {
+    return this.articleService.countArticleLike(articleId)
+  }
 }

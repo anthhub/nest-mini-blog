@@ -136,7 +136,7 @@ export class ArticleService {
   }
 
   async putArticleLike(articleId: string, userId: ObjectId): Promise<any> {
-    const obj = this.likeRepository.findOne({
+    const obj: any = await this.likeRepository.findOne({
       article: articleId,
       user: userId,
     })
@@ -152,9 +152,13 @@ export class ArticleService {
   }
 
   async deleteArticleLike(articleId: string, userId: ObjectId): Promise<any> {
-    return this.likeRepository.findOneAndRemove({
+    return await this.likeRepository.findOneAndRemove({
       article: articleId,
       user: userId,
     })
+  }
+
+  async countArticleLike(articleId: string): Promise<any> {
+    return await this.likeRepository.count({ article: articleId })
   }
 }
