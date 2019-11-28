@@ -10,6 +10,9 @@ export class ArticleEntity extends CommonEntity {
   @prop()
   content: string
 
+  @prop({ default: 0 })
+  viewCount: number
+
   @prop()
   html: string
 

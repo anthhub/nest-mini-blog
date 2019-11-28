@@ -1,3 +1,5 @@
+import { ObjectID } from 'mongodb'
+
 import { arrayProp, post, prop, Ref } from '@typegoose/typegoose'
 
 import { ArticleEntity } from './article.entity'
@@ -5,8 +7,8 @@ import { CommonEntity } from './common.entity'
 import { UserEntity } from './user.entity'
 
 export class CommentEntity extends CommonEntity {
-  @prop({ ref: ArticleEntity, index: true })
-  article: Ref<ArticleEntity>
+  @prop({ index: true })
+  article: string
 
   // 我是否点赞
   @prop({})
@@ -27,8 +29,8 @@ export class CommentEntity extends CommonEntity {
   @arrayProp({ itemsRef: CommentEntity })
   topComment: Ref<CommentEntity>[]
 
-  @prop({ ref: CommentEntity, index: true })
-  respComment: Ref<CommentEntity>
+  @prop({ index: true })
+  respComment: string
 
   @prop({ ref: UserEntity, index: true })
   respUser: Ref<UserEntity>

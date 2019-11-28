@@ -59,6 +59,12 @@ export class ArticleController {
     return this.articleService.updateArticle(id, updateArticleDto)
   }
 
+  @Put(':id/putViewCount')
+  @UseInterceptors(ClassSerializerInterceptor)
+  putViewCount(@Param('id') id: string): Promise<Partial<ArticleEntity>[]> {
+    return this.articleService.putViewCount(id)
+  }
+
   @Post()
   @UseGuards(AuthGuard('jwt'))
   create(
