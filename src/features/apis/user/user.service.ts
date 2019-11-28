@@ -30,6 +30,13 @@ export class UserService {
     return doc && doc._doc
   }
 
+  async getUserById(id: string): Promise<UserEntity> {
+    const doc: any = await this.userRepository.findOne({
+      id,
+    })
+    return doc && doc._doc
+  }
+
   async getUserByUsername(username: string): Promise<UserEntity> {
     const doc: any = await this.userRepository.findOne({
       username,

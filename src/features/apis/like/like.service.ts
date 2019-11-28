@@ -35,6 +35,14 @@ export class LikeService {
     }
   }
 
+  async isLiked(articleId: string, userId: ObjectId): Promise<any> {
+    const obj: any = await this.likeRepository.findOne({
+      article: articleId,
+      user: userId,
+    })
+    return { like: !!obj }
+  }
+
   async putArticleLike(articleId: string, userId: ObjectId): Promise<any> {
     const obj: any = await this.likeRepository.findOne({
       article: articleId,

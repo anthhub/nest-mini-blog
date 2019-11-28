@@ -27,11 +27,23 @@ import { LikeService } from './like.service'
 @ApiUseTags('like')
 @ApiBearerAuth()
 @Controller('like')
+@UseGuards(AuthGuard('jwt'))
 export class LikeController {
   constructor(private readonly likeService: LikeService) {}
 
+  @Get('/:articleId')
+  @UseInterceptors(ClassSerializerInterceptor)
+  isLiked(
+    @Param('articleId') articleId: string,
+    @Req() req: IUserRequest,
+  ): Promise<Partial<ArticleEntity>[]> {
+    const {
+      user: { id: userId },
+    } = req
+    return this.likeService.isLiked(articleId, userId)
+  }
+
   @Put('/:articleId')
-  @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(ClassSerializerInterceptor)
   like(
     @Param('articleId') articleId: string,
@@ -44,7 +56,6 @@ export class LikeController {
   }
 
   @Delete('/:articleId')
-  @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(ClassSerializerInterceptor)
   unlike(
     @Param('articleId') articleId: string,

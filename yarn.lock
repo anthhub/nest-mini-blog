@@ -7263,7 +7263,7 @@ validate-npm-package-license@^3.0.1:
 
 validator@10.4.0:
   version "10.4.0"
-  resolved "https://registry.npm.taobao.org/validator/download/validator-10.4.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvalidator%2Fdownload%2Fvalidator-10.4.0.tgz#ee99a44afb3bb5ed350a159f056ca72a204cfc3c"
+  resolved "https://registry.npm.taobao.org/validator/download/validator-10.4.0.tgz#ee99a44afb3bb5ed350a159f056ca72a204cfc3c"
   integrity sha1-7pmkSvs7te01ChWfBWynKiBM/Dw=
 
 vary@^1, vary@~1.1.2:

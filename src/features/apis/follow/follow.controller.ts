@@ -26,11 +26,11 @@ import { FollowService } from './follow.service'
 @ApiUseTags('follow')
 @ApiBearerAuth()
 @Controller('follow')
+@UseGuards(AuthGuard('jwt'))
 export class FollowController {
   constructor(private readonly followService: FollowService) {}
 
   @Put('/:following')
-  @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(ClassSerializerInterceptor)
   follow(
     @Param('following') following: string,
@@ -43,7 +43,6 @@ export class FollowController {
   }
 
   @Delete('/:following')
-  @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(ClassSerializerInterceptor)
   unfollow(
     @Param('following') following: string,

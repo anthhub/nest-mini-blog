@@ -27,7 +27,6 @@ import { UserService } from './user.service'
 @ApiUseTags('user')
 @ApiBearerAuth()
 @Controller('user')
-@UseGuards(AuthGuard('jwt'))
 export class UserController {
   constructor(
     private readonly userService: UserService,
@@ -37,6 +36,7 @@ export class UserController {
   ) {}
 
   // 更新
+  @UseGuards(AuthGuard('jwt'))
   @Patch('update')
   async update(
     @Body() updateUserDto: UpdateUserDto,
@@ -46,11 +46,10 @@ export class UserController {
     return await this.userService.updateUser(curUser, updateUserDto)
   }
 
-  // 登录
-  @Get('info')
+  @Get('/:id/info')
   @UseInterceptors(ClassSerializerInterceptor)
-  async info(@Req() req: IUserRequest): Promise<any> {
-    return req.user
+  async info(@Param('id') id: string): Promise<any> {
+    return this.userService.getUserById(id)
   }
 
   @Get('/:id/articles')

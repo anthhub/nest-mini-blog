@@ -11,6 +11,8 @@ import { ArticleController } from './apis/article/article.controller'
 import { ArticleService } from './apis/article/article.service'
 import { AuthService } from './apis/auth/auth.service'
 import { JwtStrategy } from './apis/auth/jwt.strategy'
+import { CommentController } from './apis/comment/comment.controller'
+import { CommentService } from './apis/comment/comment.service'
 import { FileController } from './apis/file/file.controller'
 import { FollowController } from './apis/follow/follow.controller'
 import { FollowService } from './apis/follow/follow.service'
@@ -19,11 +21,18 @@ import { LikeService } from './apis/like/like.service'
 import { UserController } from './apis/user/user.controller'
 import { UserService } from './apis/user/user.service'
 import { ArticleEntity } from './entities/article.entity'
+import { CommentEntity } from './entities/comment.entity'
 import { FollowEntity } from './entities/follow.entity'
 import { LikeEntity } from './entities/like.entity'
 import { UserEntity } from './entities/user.entity'
 
-const ENTITIES = [UserEntity, ArticleEntity, LikeEntity, FollowEntity]
+const ENTITIES = [
+  UserEntity,
+  ArticleEntity,
+  LikeEntity,
+  FollowEntity,
+  CommentEntity,
+]
 
 @Module({
   imports: [
@@ -39,6 +48,7 @@ const ENTITIES = [UserEntity, ArticleEntity, LikeEntity, FollowEntity]
     FileController,
     LikeController,
     FollowController,
+    CommentController,
   ],
   providers: [
     ArticleService,
@@ -48,6 +58,7 @@ const ENTITIES = [UserEntity, ArticleEntity, LikeEntity, FollowEntity]
     UserService,
     LikeService,
     FollowService,
+    CommentService,
   ],
   exports: [],
 })
