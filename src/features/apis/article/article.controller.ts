@@ -37,8 +37,9 @@ export class ArticleController {
   getArticles(
     @Query('own') own: string = 'all',
     @Query('search') search: string,
+    @Query('endCursor') endCursor: number,
   ): Promise<any> {
-    const query = { own, search }
+    const query = { own, search, endCursor }
 
     return this.articleService.getArticles(query)
   }

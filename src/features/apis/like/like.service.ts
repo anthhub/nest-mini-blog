@@ -31,7 +31,7 @@ export class LikeService {
 
     return {
       edges: edges.map(item => item.article) as ArticleEntity[],
-      pageInfo: { hasNextPage: true, endCursor: '20' },
+      pageInfo: { hasNextPage: true, endCursor: 20 },
     }
   }
 

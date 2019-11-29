@@ -1,4 +1,4 @@
 export interface IPage<T> {
   edges: T[]
-  pageInfo: { hasNextPage: boolean; endCursor: string }
+  pageInfo: { hasNextPage: boolean; endCursor: number }
 }

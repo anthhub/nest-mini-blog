@@ -12,6 +12,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Req,
   UseGuards,
   UseInterceptors,
@@ -54,8 +55,11 @@ export class UserController {
 
   @Get('/:id/articles')
   @UseInterceptors(ClassSerializerInterceptor)
-  myArticles(@Param('id') id: string): Promise<any> {
-    return this.articleService.getArticlesByUserId(id)
+  myArticles(
+    @Param('id') id: string,
+    @Query('endCursor') endCursor: number,
+  ): Promise<any> {
+    return this.articleService.getArticlesByUserId(id, endCursor)
   }
 
   @Get('/:id/likes')

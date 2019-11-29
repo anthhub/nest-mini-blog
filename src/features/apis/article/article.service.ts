@@ -61,8 +61,9 @@ export class ArticleService {
   async getArticles(query: {
     own: string
     search: string
+    endCursor: number
   }): Promise<IPage<ArticleEntity>> {
-    const { own, search } = query
+    const { own, search, endCursor } = query
 
     const option = search
       ? {
@@ -86,6 +87,15 @@ export class ArticleService {
         }
       : {}
 
+    const control =
+      endCursor || endCursor >= 0
+        ? {
+            skip: endCursor,
+            sort: { update_at: -1 }, // 按照 _id倒序排列
+            limit: 20, // 查询100条
+          }
+        : { sort: { update_at: -1 } }
+
     const edges = await this.articleRepository
       .find(
         {
@@ -93,29 +103,39 @@ export class ArticleService {
         },
         null,
         {
-          sort: { update_at: -1 }, // 按照 _id倒序排列
-          // limit: 20, // 查询100条
+          ...control,
         },
       )
       .populate('user')
 
     return {
       edges,
-      pageInfo: { hasNextPage: true, endCursor: '20' },
+      pageInfo: { hasNextPage: !!edges.length, endCursor: endCursor + 20 },
     }
   }
 
-  async getArticlesByUserId(id: string): Promise<IPage<ArticleEntity>> {
+  async getArticlesByUserId(
+    id: string,
+    endCursor: number,
+  ): Promise<IPage<ArticleEntity>> {
+    const control =
+      endCursor || endCursor >= 0
+        ? {
+            skip: endCursor,
+            sort: { update_at: -1 }, // 按照 _id倒序排列
+            limit: 20, // 查询100条
+          }
+        : { sort: { update_at: -1 } }
+
     const edges = await this.articleRepository
       .find({ user: id }, null, {
-        sort: { update_at: -1 }, // 按照 _id倒序排列
-        // limit: 20, // 查询100条
+        ...control,
       })
       .populate('user')
 
     return {
       edges,
-      pageInfo: { hasNextPage: true, endCursor: '20' },
+      pageInfo: { hasNextPage: true, endCursor: 20 },
     }
   }
 

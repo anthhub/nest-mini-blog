@@ -24,7 +24,7 @@ export class FollowService {
 
     return {
       edges,
-      pageInfo: { hasNextPage: true, endCursor: '20' },
+      pageInfo: { hasNextPage: true, endCursor: 20 },
     }
   }
 
@@ -38,7 +38,7 @@ export class FollowService {
 
     return {
       edges,
-      pageInfo: { hasNextPage: true, endCursor: '20' },
+      pageInfo: { hasNextPage: true, endCursor: 20 },
     }
   }
 
