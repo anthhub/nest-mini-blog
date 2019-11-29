@@ -59,7 +59,7 @@ export class UserController {
     @Param('id') id: string,
     @Query('endCursor') endCursor: number,
   ): Promise<any> {
-    return this.articleService.getArticlesByUserId(id, endCursor)
+    return this.articleService.getArticlesByUserId(id, +endCursor)
   }
 
   @Get('/:id/likes')
