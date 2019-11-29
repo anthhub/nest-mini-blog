@@ -79,16 +79,24 @@ export class CommentService {
       }
 
       // 子评论
-      const comment = await new this.commentRepository({
-        article: articleId,
-        user: userId,
-        content,
-        respUser,
-        respComment,
-      }).save()
+      // const comment = await new this.commentRepository({
+      //   article: articleId,
+      //   user: userId,
+      //   content,
+      //   respUser,
+      //   respComment,
+      // }).save()
 
       return await this.commentRepository.findByIdAndUpdate(firstComment, {
-        $push: { topComment: comment },
+        $push: {
+          topComment: await new this.commentRepository({
+            article: articleId,
+            user: userId,
+            content,
+            respUser,
+            respComment,
+          }).save(),
+        },
       })
     }
   }
