@@ -70,13 +70,13 @@ export class LikeService {
     return await this.likeRepository.count({ article: articleId })
   }
 
-  async getLikesCount(id: string): Promise<any> {
-    return await this.likeRepository.count({ user: id })
-  }
-
   async getLikedCount(id: string): Promise<any> {
     const articles = await this.articleRepository.find({ user: id })
     const ids = articles.map(item => item.id)
     return await this.likeRepository.count({ article: { $in: ids } })
+  }
+
+  async getLikesCount(id: string): Promise<any> {
+    return await this.likeRepository.count({ user: id })
   }
 }

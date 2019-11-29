@@ -101,4 +101,10 @@ export class UserController {
   myFollowingCount(@Param('id') id: string): Promise<any> {
     return this.followService.getFollowingCount(id)
   }
+
+  @Get('/:id/view/count')
+  @UseInterceptors(ClassSerializerInterceptor)
+  myViewCount(@Param('id') id: string): Promise<any> {
+    return this.articleService.getViewCount(id)
+  }
 }

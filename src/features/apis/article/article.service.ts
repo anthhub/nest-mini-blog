@@ -18,6 +18,16 @@ export class ArticleService {
     private readonly articleRepository: ReturnModelType<typeof ArticleEntity>,
   ) {}
 
+  async getViewCount(id: string): Promise<any> {
+    return (await this.articleRepository.find({ user: id })).reduce(
+      (res, cur) => {
+        res = res + (cur ? Number(cur.viewCount) : 0)
+        return res
+      },
+      0,
+    )
+  }
+
   async putViewCount(id: string): Promise<any> {
     const doc: any = await this.articleRepository.findByIdAndUpdate(id, {
       $inc: { viewCount: 1 },
