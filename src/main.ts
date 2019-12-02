@@ -55,6 +55,8 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe())
 
   await app.listen(config.port, config.hostName, () => {
+    console.log(`http://${config.hostName}:${config.port}`)
+
     Logger.log(
       `Awesome-nest API server has been started on http://${config.hostName}:${config.port}`,
     )
