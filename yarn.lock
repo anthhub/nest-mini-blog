@@ -7125,10 +7125,10 @@ typeorm@^0.2.18:
     yargonaut "^1.1.2"
     yargs "^13.2.1"
 
-typescript@3.4.3:
-  version "3.4.3"
-  resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.4.3.tgz#0eb320e4ace9b10eadf5bc6103286b0f8b7c224f"
-  integrity sha1-DrMg5KzpsQ6t9bxhAyhrD4t8Ik8=
+typescript@3.7:
+  version "3.7.2"
+  resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.7.2.tgz#27e489b95fa5909445e9fef5ee48d81697ad18fb"
+  integrity sha1-J+SJuV+lkJRF6f717kjYFpetGPs=
 
 uglify-js@^3.1.4:
   version "3.6.5"
