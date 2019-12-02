@@ -4,8 +4,9 @@
   "description": "",
   "author": "",
   "license": "MIT",
+  "pm2": "pm2 start --name nest dist/main.js",
   "scripts": {
-    "prod": "cross-env NODE_ENV=production pm2 start ecosystem.config.js --only prod-implant --watch",
+    "prod": "cross-env NODE_ENV=production pm2 start dist/main.js --name 'awesome-nest' ./bin/www",
     "stop": "pm2 delete awesome-nest",
     "build": "tsc -p tsconfig.build.json",
     "format": "prettier --config .prettierrc --write \"src/**/*.ts\"",
