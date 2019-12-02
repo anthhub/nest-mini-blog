@@ -1,7 +1,7 @@
 import { resolve } from 'path'
 
 export default {
-  port: 3210,
+  port: 3003,
 
   orm: {
     type: 'mysql',
