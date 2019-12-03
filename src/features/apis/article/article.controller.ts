@@ -57,7 +57,7 @@ export class ArticleController {
 
   @Patch(':id')
   @ApiOperation({ title: '修改文章' })
-  @UseGuards(AuthGuard(' '))
+  @UseGuards(AuthGuard('jwt'))
   update(
     @Param('id') id: string,
     @Body() updateArticleDto: CreateArticleDto,
