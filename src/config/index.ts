@@ -5,25 +5,19 @@ import productionConfig from './prod.config'
 
 export const isProd = process.env.NODE_ENV === 'production'
 
+// mongodb://root:123456@localhost:27017/blog'
+
 let config = {
   port: 3003,
   hostName: '0.0.0.0',
 
-  orm: {
+  mongoConfig: {
     type: 'mongodb',
     host: 'localhost',
     port: 27017,
     username: 'root',
     password: '123456',
-    database: 'blog',
-    entities: [resolve(`./**/*.entity${isProd ? '.js' : '.ts'}`)],
-    migrations: ['migration/*.ts'],
-    timezone: 'UTC',
-    charset: 'utf8mb4',
-    multipleStatements: true,
-    dropSchema: false,
-    synchronize: true,
-    logging: true,
+    db: 'blog',
   },
 
   jwt: {

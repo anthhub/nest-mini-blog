@@ -54,7 +54,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TransformInterceptor())
   app.useGlobalPipes(new ValidationPipe())
 
-  await app.listen(3003, config.hostName, () => {
+  await app.listen(config.port, config.hostName, () => {
     console.log(`http://${config.hostName}:${config.port}`)
 
     Logger.log(

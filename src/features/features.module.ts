@@ -20,11 +20,16 @@ import { LikeController } from './apis/like/like.controller'
 import { LikeService } from './apis/like/like.service'
 import { UserController } from './apis/user/user.controller'
 import { UserService } from './apis/user/user.service'
+
 import { ArticleEntity } from './entities/article.entity'
 import { CommentEntity } from './entities/comment.entity'
 import { FollowEntity } from './entities/follow.entity'
 import { LikeEntity } from './entities/like.entity'
 import { UserEntity } from './entities/user.entity'
+
+const {
+  mongoConfig: { username, password, host, port, db },
+} = config
 
 const ENTITIES = [
   UserEntity,
@@ -36,7 +41,10 @@ const ENTITIES = [
 
 @Module({
   imports: [
-    TypegooseModule.forRoot('mongodb://root:123456@localhost:27017/blog', {}),
+    TypegooseModule.forRoot(
+      `mongodb://${username}:${password}@${host}:${port}/${db}`,
+      {},
+    ),
     TypegooseModule.forFeature([...ENTITIES]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register(config.jwt),
