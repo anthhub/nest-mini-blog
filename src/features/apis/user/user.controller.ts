@@ -18,7 +18,12 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
-import { ApiBearerAuth, ApiImplicitBody, ApiUseTags } from '@nestjs/swagger'
+import {
+  ApiBearerAuth,
+  ApiImplicitBody,
+  ApiOperation,
+  ApiUseTags,
+} from '@nestjs/swagger'
 
 import { ArticleService } from '../article/article.service'
 import { FollowService } from '../follow/follow.service'
@@ -36,9 +41,76 @@ export class UserController {
     private readonly followService: FollowService,
   ) {}
 
+  @Get('/:id/articles')
+  @ApiOperation({ title: '获取用户写的文章' })
+  myArticles(
+    @Param('id') id: string,
+    @Query('endCursor') endCursor: number,
+  ): Promise<any> {
+    return this.articleService.getArticlesByUserId(id, +endCursor)
+  }
+
+  @Get('/:id/likes')
+  @ApiOperation({ title: '获取用户点赞的文章' })
+  myLikes(@Param('id') id: string): Promise<any> {
+    return this.likeService.getLikesByUserId(id)
+  }
+
+  @Get('/:id/followers')
+  @ApiOperation({ title: '获取关注用户的人' })
+  myFollowers(@Param('id') id: string): Promise<any> {
+    return this.followService.getFollowersByUserId(id)
+  }
+
+  @Get('/:id/following')
+  @ApiOperation({ title: '获取用户关注的人' })
+  myFollowing(@Param('id') id: string): Promise<any> {
+    return this.followService.getFollowingByUserId(id)
+  }
+
+  @Get('/:id/isFollowing/:followerId')
+  @ApiOperation({ title: '是否关注此用户' })
+  isMyFollowing(
+    @Param('id') id: string,
+    @Param('followerId') followerId: string,
+  ): Promise<any> {
+    return this.followService.isFollowing(id, followerId)
+  }
+
+  @Get('/:id/followers/count')
+  @ApiOperation({ title: '关注我的人数', deprecated: true })
+  myFollowersCount(@Param('id') id: string): Promise<any> {
+    return this.followService.getFollowersCount(id)
+  }
+
+  @Get('/:id/following/count')
+  @ApiOperation({ title: '我关注的人数', deprecated: true })
+  myFollowingCount(@Param('id') id: string): Promise<any> {
+    return this.followService.getFollowingCount(id)
+  }
+
+  @Get('/:id/view/count')
+  @ApiOperation({ title: '我的文章的总阅读数', deprecated: true })
+  myViewCount(@Param('id') id: string): Promise<any> {
+    return this.articleService.getViewCount(id)
+  }
+
+  @Get('/:id/likes/count')
+  @ApiOperation({ title: '获取用户点赞数', deprecated: true })
+  myLikesCount(@Param('id') id: string): Promise<any> {
+    return this.likeService.getLikesCount(id)
+  }
+
+  @Get('/:id/liked/count')
+  @ApiOperation({ title: '获取用户被点赞数', deprecated: true })
+  myLikedCount(@Param('id') id: string): Promise<any> {
+    return this.likeService.getLikedCount(id)
+  }
+
   // 更新
   @UseGuards(AuthGuard('jwt'))
   @Patch('update')
+  @ApiOperation({ title: '更新用户信息' })
   async update(
     @Body() updateUserDto: UpdateUserDto,
     @Req() req: IUserRequest,
@@ -48,67 +120,8 @@ export class UserController {
   }
 
   @Get('/:id/info')
-  @UseInterceptors(ClassSerializerInterceptor)
+  @ApiOperation({ title: '获取用户信息' })
   async info(@Param('id') id: string): Promise<any> {
-    return this.userService.getUserById(id)
-  }
-
-  @Get('/:id/articles')
-  @UseInterceptors(ClassSerializerInterceptor)
-  myArticles(
-    @Param('id') id: string,
-    @Query('endCursor') endCursor: number,
-  ): Promise<any> {
-    return this.articleService.getArticlesByUserId(id, +endCursor)
-  }
-
-  @Get('/:id/likes')
-  @UseInterceptors(ClassSerializerInterceptor)
-  myLikes(@Param('id') id: string): Promise<any> {
-    return this.likeService.getLikesByUserId(id)
-  }
-
-  @Get('/:id/likes/count')
-  @UseInterceptors(ClassSerializerInterceptor)
-  myLikesCount(@Param('id') id: string): Promise<any> {
-    return this.likeService.getLikesCount(id)
-  }
-
-  @Get('/:id/liked/count')
-  @UseInterceptors(ClassSerializerInterceptor)
-  myLikedCount(@Param('id') id: string): Promise<any> {
-    return this.likeService.getLikedCount(id)
-  }
-
-  @Get('/:id/followers')
-  @UseInterceptors(ClassSerializerInterceptor)
-  myFollowers(@Param('id') id: string): Promise<any> {
-    return this.followService.getFollowersByUserId(id)
-  }
-
-  @Get('/:id/following')
-  @UseInterceptors(ClassSerializerInterceptor)
-  myFollowing(@Param('id') id: string): Promise<any> {
-    return this.followService.getFollowingByUserId(id)
-  }
-
-  // 关注我的人
-  @Get('/:id/followers/count')
-  @UseInterceptors(ClassSerializerInterceptor)
-  myFollowersCount(@Param('id') id: string): Promise<any> {
-    return this.followService.getFollowersCount(id)
-  }
-
-  // 我关注的人
-  @Get('/:id/following/count')
-  @UseInterceptors(ClassSerializerInterceptor)
-  myFollowingCount(@Param('id') id: string): Promise<any> {
-    return this.followService.getFollowingCount(id)
-  }
-
-  @Get('/:id/view/count')
-  @UseInterceptors(ClassSerializerInterceptor)
-  myViewCount(@Param('id') id: string): Promise<any> {
-    return this.articleService.getViewCount(id)
+    return this.userService.getUserInfoById(id)
   }
 }

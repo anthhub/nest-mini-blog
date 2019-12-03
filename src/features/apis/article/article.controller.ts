@@ -17,7 +17,12 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
-import { ApiBearerAuth, ApiImplicitQuery, ApiUseTags } from '@nestjs/swagger'
+import {
+  ApiBearerAuth,
+  ApiImplicitQuery,
+  ApiOperation,
+  ApiUseTags,
+} from '@nestjs/swagger'
 
 import { CreateArticleDto } from '../../dtos/article.dto'
 import { ArticleEntity } from '../../entities/article.entity'
@@ -31,9 +36,9 @@ export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
 
   @Get('query')
+  @ApiOperation({ title: '文章搜索' })
   @ApiImplicitQuery({ name: 'own', required: false })
   @ApiImplicitQuery({ name: 'search', required: false })
-  @UseInterceptors(ClassSerializerInterceptor)
   getArticles(
     @Query('own') own: string = 'all',
     @Query('search') search: string,
@@ -45,14 +50,14 @@ export class ArticleController {
   }
 
   @Get(':id')
-  @UseInterceptors(ClassSerializerInterceptor)
+  @ApiOperation({ title: '获取文章详情' })
   getArticleById(@Param('id') id: string): Promise<Partial<ArticleEntity>[]> {
     return this.articleService.getArticle(id)
   }
 
   @Patch(':id')
+  @ApiOperation({ title: '修改文章' })
   @UseGuards(AuthGuard('jwt'))
-  @UseInterceptors(ClassSerializerInterceptor)
   update(
     @Param('id') id: string,
     @Body() updateArticleDto: CreateArticleDto,
@@ -61,12 +66,13 @@ export class ArticleController {
   }
 
   @Put(':id/putViewCount')
-  @UseInterceptors(ClassSerializerInterceptor)
+  @ApiOperation({ title: '调用此接口,阅读数+1' })
   putViewCount(@Param('id') id: string): Promise<Partial<ArticleEntity>[]> {
     return this.articleService.putViewCount(id)
   }
 
   @Post()
+  @ApiOperation({ title: '发布新文章' })
   @UseGuards(AuthGuard('jwt'))
   create(
     @Body() createCatDto: CreateArticleDto,
@@ -80,7 +86,8 @@ export class ArticleController {
   }
 
   @Delete()
-  @ApiImplicitQuery({ name: 'id', required: false })
+  @ApiOperation({ title: '删除指定文章,不传 id 删除所有' })
+  @ApiImplicitQuery({ name: 'id', required: true })
   @UseGuards(AuthGuard('jwt'))
   delete(@Query('id') id?: string): Promise<void> {
     return this.articleService.deleteArticle(id)

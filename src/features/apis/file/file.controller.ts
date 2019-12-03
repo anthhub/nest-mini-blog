@@ -13,6 +13,7 @@ import {
   ApiConsumes,
   ApiImplicitBody,
   ApiImplicitFile,
+  ApiOperation,
   ApiUseTags,
 } from '@nestjs/swagger'
 
@@ -33,6 +34,7 @@ export class FileController {
     description: 'img',
   })
   @Post('upload')
+  @ApiOperation({ title: '上传图片' })
   @UseInterceptors(
     FileInterceptor('file', {
       limits: {

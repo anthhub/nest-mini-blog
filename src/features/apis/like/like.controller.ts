@@ -17,7 +17,12 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
-import { ApiBearerAuth, ApiImplicitQuery, ApiUseTags } from '@nestjs/swagger'
+import {
+  ApiBearerAuth,
+  ApiImplicitQuery,
+  ApiOperation,
+  ApiUseTags,
+} from '@nestjs/swagger'
 
 import { CreateArticleDto } from '../../dtos/article.dto'
 import { ArticleEntity } from '../../entities/article.entity'
@@ -32,7 +37,7 @@ export class LikeController {
   constructor(private readonly likeService: LikeService) {}
 
   @Get('/:articleId')
-  @UseInterceptors(ClassSerializerInterceptor)
+  @ApiOperation({ title: '我是否点赞文章', deprecated: true })
   isLiked(
     @Param('articleId') articleId: string,
     @Req() req: IUserRequest,
@@ -44,7 +49,7 @@ export class LikeController {
   }
 
   @Put('/:articleId')
-  @UseInterceptors(ClassSerializerInterceptor)
+  @ApiOperation({ title: '点赞文章' })
   like(
     @Param('articleId') articleId: string,
     @Req() req: IUserRequest,
@@ -56,7 +61,7 @@ export class LikeController {
   }
 
   @Delete('/:articleId')
-  @UseInterceptors(ClassSerializerInterceptor)
+  @ApiOperation({ title: '取消点赞文章' })
   unlike(
     @Param('articleId') articleId: string,
     @Req() req: IUserRequest,
@@ -68,7 +73,7 @@ export class LikeController {
   }
 
   @Get('/:articleId/count')
-  @UseInterceptors(ClassSerializerInterceptor)
+  @ApiOperation({ title: '文章点赞数', deprecated: true })
   countArticleLike(
     @Param('articleId') articleId: string,
   ): Promise<Partial<ArticleEntity>[]> {

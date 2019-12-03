@@ -11,15 +11,14 @@ import { IToken } from '../../interfaces/auth.interface'
 export class AuthService {
   constructor(private readonly jwtService: JwtService) {}
 
-  createToken(mobilePhoneNumber: string): IToken {
+  createToken(id: string): IToken {
     console.log(
       '%c%s',
       'color: #20bd08;font-size:15px',
-      '===TQY===: AuthService -> constructor -> mobilePhoneNumber',
-      mobilePhoneNumber,
+      '===TQY===: AuthService -> constructor -> id',
+      id,
     )
-
-    const accessToken = this.jwtService.sign({ mobilePhoneNumber })
+    const accessToken = this.jwtService.sign({ id })
 
     return {
       expires_in: config.jwt.signOptions.expiresIn,

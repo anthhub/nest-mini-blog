@@ -28,6 +28,16 @@ export class FollowService {
     }
   }
 
+  async isFollowing(followingId: string, followerId: string): Promise<any> {
+    const obj = await this.followRepository.findOne({
+      follower: followerId,
+      following: followingId,
+    })
+    console.log('%c%s', 'color: #20bd08;font-size:15px', '===TQY===: obj', obj)
+
+    return !!obj
+  }
+
   async getFollowingByUserId(follower: string): Promise<IPage<FollowEntity>> {
     const edges = await this.followRepository
       .find({ follower }, null, {

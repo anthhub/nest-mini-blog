@@ -28,12 +28,6 @@ export class AccountService {
     const user = await this.userService.getUserByMobilePhoneNumber(
       signInDto.mobilePhoneNumber,
     )
-    console.log(
-      '%c%s',
-      'color: #20bd08;font-size:15px',
-      '===TQY===: AccountService -> user',
-      user,
-    )
 
     if (!user) {
       throw new UnauthorizedException({
@@ -42,7 +36,7 @@ export class AccountService {
       })
     }
 
-    const { password, ...rest } = user
+    const { password } = user
 
     if (!compareSync(signInDto.password, password)) {
       throw new UnauthorizedException({
@@ -51,9 +45,19 @@ export class AccountService {
       })
     }
 
-    const token = this.authService.createToken(signInDto.mobilePhoneNumber)
+    const token = this.authService.createToken((user.id as unknown) as string)
 
-    return { ...token, ...rest }
+    const info = await this.userService.getUserInfoById(
+      (user.id as unknown) as string,
+    )
+    console.log(
+      '%c%s',
+      'color: #20bd08;font-size:15px',
+      '===TQY===: AccountService -> info',
+      info,
+    )
+
+    return { ...token, ...info }
   }
 
   async signUp(signUpDto: SignUpDto): Promise<any> {

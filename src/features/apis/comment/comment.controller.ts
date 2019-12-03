@@ -20,7 +20,12 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
-import { ApiBearerAuth, ApiImplicitQuery, ApiUseTags } from '@nestjs/swagger'
+import {
+  ApiBearerAuth,
+  ApiImplicitQuery,
+  ApiOperation,
+  ApiUseTags,
+} from '@nestjs/swagger'
 
 import { CommentService } from './comment.service'
 
@@ -32,6 +37,7 @@ export class CommentController {
 
   @UseGuards(AuthGuard('jwt'))
   @Post()
+  @ApiOperation({ title: '写评论' })
   comment(
     @Body() createCommentDto: CreateCommentDto,
     @Req() req: IUserRequest,
@@ -44,13 +50,13 @@ export class CommentController {
   }
 
   @Get('/:articleId')
-  @UseInterceptors(ClassSerializerInterceptor)
+  @ApiOperation({ title: '文章评论列表' })
   comments(@Param('articleId') articleId: string): Promise<Partial<any>[]> {
     return this.commentService.comments(articleId)
   }
 
   @Get('/:articleId/count')
-  @UseInterceptors(ClassSerializerInterceptor)
+  @ApiOperation({ title: '文章评论数', deprecated: true })
   countArticleComment(
     @Param('articleId') articleId: string,
   ): Promise<Partial<ArticleEntity>[]> {
@@ -58,7 +64,7 @@ export class CommentController {
   }
 
   @Put('/:commentId/like')
-  @UseInterceptors(ClassSerializerInterceptor)
+  @ApiOperation({ title: '文章评论点赞' })
   likeComment(
     @Param('commentId') commentId: string,
   ): Promise<Partial<ArticleEntity>[]> {
@@ -66,7 +72,7 @@ export class CommentController {
   }
 
   @Delete('/:commentId/like')
-  @UseInterceptors(ClassSerializerInterceptor)
+  @ApiOperation({ title: '文章评论取消点赞' })
   unlikeComment(
     @Param('commentId') commentId: string,
   ): Promise<Partial<ArticleEntity>[]> {
