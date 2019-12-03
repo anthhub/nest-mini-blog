@@ -10,4 +10,4 @@ RUN npm i pm2 -g \
 
 EXPOSE 3003
 
-CMD ["npm", "start:prod"]
+CMD ["npm", "start"]

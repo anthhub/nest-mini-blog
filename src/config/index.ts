@@ -13,7 +13,7 @@ let config = {
 
   mongoConfig: {
     type: 'mongodb',
-    host: 'localhost',
+    host: '101.132.79.152',
     port: 27017,
     username: 'root',
     password: '123456',
