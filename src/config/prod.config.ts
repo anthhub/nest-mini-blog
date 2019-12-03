@@ -5,7 +5,7 @@ export default {
 
   mongo: {
     type: 'mongodb',
-    host: '101.132.79.152',
+    host: '172.17.0.1',
     port: 27017,
     username: 'root',
     password: '123456',
