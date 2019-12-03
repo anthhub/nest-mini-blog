@@ -1,6 +1,5 @@
 import { ObjectId } from 'mongodb'
 import { InjectModel } from 'nestjs-typegoose'
-
 import { IPage } from 'src/features/interfaces/common.interface'
 
 import { Injectable } from '@nestjs/common'
@@ -10,10 +9,14 @@ import { Logger } from '../../../shared/utils/logger'
 import { CreateArticleDto } from '../../dtos/article.dto'
 import { ArticleEntity } from '../../entities/article.entity'
 import { FollowEntity } from '../../entities/follow.entity'
+import { CommentService } from '../comment/comment.service'
+import { LikeService } from '../like/like.service'
 
 @Injectable()
 export class ArticleService {
   constructor(
+    private readonly likeService: LikeService,
+    private readonly commentService: CommentService,
     @InjectModel(ArticleEntity)
     private readonly articleRepository: ReturnModelType<typeof ArticleEntity>,
   ) {}
@@ -40,26 +43,29 @@ export class ArticleService {
     id: string,
     updateArticleDto: CreateArticleDto,
   ): Promise<any> {
-    Logger.info('id', id)
-
-    const doc: any = await this.articleRepository.findByIdAndUpdate(
-      id,
-      updateArticleDto,
-    )
+    const doc: any = await this.articleRepository.findByIdAndUpdate(id, {
+      ...updateArticleDto,
+      update_at: Date.now(),
+    })
 
     return doc && doc._doc
   }
 
   async getArticle(id: string): Promise<any> {
-    Logger.info('id', id)
-
     const doc: any = await this.articleRepository.findById(id).populate('user')
 
-    return doc && doc._doc
+    return { ...(doc && doc._doc), ...(await this.getArticleStat(id)) }
   }
 
-  async getArticleStat(articleId: string, userId: string): Promise<any> {
-    return
+  // 获取文章统计
+  async getArticleStat(articleId: string, userId?: string): Promise<any> {
+    return {
+      isLiked: userId
+        ? await this.likeService.isLiked(articleId, userId as any)
+        : false,
+      likeCount: await this.likeService.countArticleLike(articleId),
+      commentCount: await this.commentService.countArticleComment(articleId),
+    }
   }
 
   async getArticles(query: {
@@ -100,7 +106,7 @@ export class ArticleService {
           }
         : { sort: { update_at: -1 } }
 
-    const edges = await this.articleRepository
+    const list = await this.articleRepository
       .find(
         {
           ...option,
@@ -111,6 +117,12 @@ export class ArticleService {
         },
       )
       .populate('user')
+
+    const edges = await Promise.all(
+      list.map(async item => {
+        return { ...item, ...(await this.getArticleStat(item.id)) }
+      }),
+    )
 
     return {
       edges,
@@ -131,11 +143,17 @@ export class ArticleService {
           }
         : { sort: { update_at: -1 } }
 
-    const edges = await this.articleRepository
+    const list = await this.articleRepository
       .find({ user: id }, null, {
         ...control,
       })
       .populate('user')
+
+    const edges = await Promise.all(
+      list.map(async item => {
+        return { ...item, ...(await this.getArticleStat(item.id, id)) }
+      }),
+    )
 
     return {
       edges,
