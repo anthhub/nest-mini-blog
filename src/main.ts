@@ -13,7 +13,7 @@ import { logger } from './core/middleware/logger.middleware'
 import { ValidationPipe } from './core/pipe/validation.pipe'
 import { Logger } from './shared/utils/logger'
 
-const API_PREFIX = 'blog/api/v1'
+const API_PREFIX = 'blog-test/api/v1'
 
 async function initSwagger(app) {
   const options = new DocumentBuilder()
