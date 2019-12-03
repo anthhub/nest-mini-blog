@@ -30,4 +30,13 @@ export class ArticleEntity extends CommonEntity {
 
   @prop({ ref: UserEntity })
   user: Ref<UserEntity>
+
+  @prop({ default: false })
+  isLiked: boolean
+
+  @prop({ default: 0 })
+  likeCount: number
+
+  @prop({ default: 0 })
+  commentCount: number
 }

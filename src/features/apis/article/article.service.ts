@@ -58,7 +58,7 @@ export class ArticleService {
   }
 
   // 获取文章统计
-  async getArticleStat(articleId: string, userId?: string): Promise<any> {
+  async getArticleStat(articleId: string, userId?: string) {
     return {
       isLiked: userId
         ? await this.likeService.isLiked(articleId, userId as any)
@@ -118,9 +118,13 @@ export class ArticleService {
       )
       .populate('user')
 
-    const edges = await Promise.all(
+    const edges: any[] = await Promise.all(
       list.map(async item => {
-        return { ...item, ...(await this.getArticleStat(item.id)) }
+        const stat = await this.getArticleStat(item.id)
+        item.likeCount = stat.likeCount
+        item.commentCount = stat.commentCount
+        item.isLiked = stat.isLiked
+        return item
       }),
     )
 
@@ -149,9 +153,13 @@ export class ArticleService {
       })
       .populate('user')
 
-    const edges = await Promise.all(
+    const edges: any[] = await Promise.all(
       list.map(async item => {
-        return { ...item, ...(await this.getArticleStat(item.id, id)) }
+        const stat = await this.getArticleStat(item.id, id)
+        item.likeCount = stat.likeCount
+        item.commentCount = stat.commentCount
+        item.isLiked = stat.isLiked
+        return item
       }),
     )
 
