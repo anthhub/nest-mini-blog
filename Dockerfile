@@ -8,6 +8,6 @@ RUN npm i pm2 -g \
     && npm i \
     && npm run build
 
-EXPOSE 3300
+EXPOSE 3003
 
-CMD ["npm", "prod"]
+CMD ["npm", "start"]
