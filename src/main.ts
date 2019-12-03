@@ -13,7 +13,11 @@ import { logger } from './core/middleware/logger.middleware'
 import { ValidationPipe } from './core/pipe/validation.pipe'
 import { Logger } from './shared/utils/logger'
 
-const API_PREFIX = 'blog-test/api/v1'
+const API_HOST = 'blog-test'
+
+const API_VERSION = '/api/v1'
+
+const API_PREFIX = API_HOST + API_VERSION
 
 async function initSwagger(app) {
   const options = new DocumentBuilder()
@@ -25,7 +29,7 @@ async function initSwagger(app) {
     .build()
 
   const document = SwaggerModule.createDocument(app, options)
-  SwaggerModule.setup(API_PREFIX + '/docs', app, document)
+  SwaggerModule.setup(API_HOST, app, document)
   // swagger 地址: http://${config.hostName}:${config.port}/docs
 }
 
