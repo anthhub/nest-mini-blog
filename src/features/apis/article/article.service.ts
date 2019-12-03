@@ -58,6 +58,10 @@ export class ArticleService {
     return doc && doc._doc
   }
 
+  async getArticleStat(articleId: string, userId: string): Promise<any> {
+    return
+  }
+
   async getArticles(query: {
     own: string
     search: string

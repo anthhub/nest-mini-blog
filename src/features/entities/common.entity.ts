@@ -1,6 +1,6 @@
 import { ObjectID } from 'mongodb'
 
-import { pre, prop, Typegoose } from '@typegoose/typegoose'
+import { post, pre, prop, Typegoose } from '@typegoose/typegoose'
 
 @pre<CommonEntity>('save', function(next) {
   if (!this.create_at) {
@@ -10,6 +10,9 @@ import { pre, prop, Typegoose } from '@typegoose/typegoose'
 
   this.id = this._id
   next()
+})
+@post<CommonEntity>('update', function() {
+  this.update_at = Date.now()
 })
 export class CommonEntity extends Typegoose {
   @prop({ select: false })
