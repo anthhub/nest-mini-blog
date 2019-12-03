@@ -25,7 +25,7 @@ async function initSwagger(app) {
     .build()
 
   const document = SwaggerModule.createDocument(app, options)
-  SwaggerModule.setup('docs', app, document)
+  SwaggerModule.setup(API_PREFIX + '/docs', app, document)
   // swagger 地址: http://${config.hostName}:${config.port}/docs
 }
 
@@ -38,9 +38,9 @@ async function bootstrap() {
 
   await initSwagger(app)
 
-  app.useStaticAssets(join(__dirname, '..', 'static'))
-  app.setBaseViewsDir(join(__dirname, '..', 'views'))
-  app.setViewEngine('hbs')
+  // app.useStaticAssets(join(__dirname, '..', 'static'))
+  // app.setBaseViewsDir(join(__dirname, '..', 'views'))
+  // app.setViewEngine('hbs')
 
   app.use(helmet())
   app.use(
