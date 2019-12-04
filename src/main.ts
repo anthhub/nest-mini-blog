@@ -10,6 +10,7 @@ import config from './config'
 import { ExceptionsFilter } from './core/filter/errors.filter'
 import { TransformInterceptor } from './core/interceptor/transform.interceptor'
 import { logger } from './core/middleware/logger.middleware'
+import { user } from './core/middleware/user.middleware'
 import { ValidationPipe } from './core/pipe/validation.pipe'
 import { Logger } from './shared/utils/logger'
 
@@ -53,6 +54,7 @@ async function bootstrap() {
       max: 1000 * 1000, // limit each IP to 100 requests per windowMs
     }),
   )
+  app.use(user)
   app.use(logger)
   app.useGlobalFilters(new ExceptionsFilter())
   app.useGlobalInterceptors(new TransformInterceptor())

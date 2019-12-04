@@ -9,4 +9,5 @@ export interface IToken {
 
 export interface IUserRequest extends Request {
   user?: UserEntity
+  userId?: string
 }

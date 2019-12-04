@@ -51,10 +51,10 @@ export class ArticleService {
     return doc && doc._doc
   }
 
-  async getArticle(id: string): Promise<any> {
+  async getArticle(id: string, userId?: string): Promise<any> {
     const doc: any = await this.articleRepository.findById(id).populate('user')
 
-    return { ...(doc && doc._doc), ...(await this.getArticleStat(id)) }
+    return { ...(doc && doc._doc), ...(await this.getArticleStat(id, userId)) }
   }
 
   // 获取文章统计
@@ -68,11 +68,14 @@ export class ArticleService {
     }
   }
 
-  async getArticles(query: {
-    own: string
-    search: string
-    endCursor: number
-  }): Promise<IPage<ArticleEntity>> {
+  async getArticles(
+    query: {
+      own: string
+      search: string
+      endCursor: number
+    },
+    userId?: string,
+  ): Promise<IPage<ArticleEntity>> {
     const { own, search, endCursor } = query
 
     const option = search
@@ -120,7 +123,7 @@ export class ArticleService {
 
     const edges: any[] = await Promise.all(
       list.map(async item => {
-        const stat = await this.getArticleStat(item.id)
+        const stat = await this.getArticleStat(item.id, userId)
         item.likeCount = stat.likeCount
         item.commentCount = stat.commentCount
         item.isLiked = stat.isLiked

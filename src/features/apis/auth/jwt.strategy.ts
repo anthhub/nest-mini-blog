@@ -37,10 +37,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       user,
     )
 
-    if (!user) {
-      throw new UnauthorizedException('身份验证失败')
-    }
-
     return user
   }
 }

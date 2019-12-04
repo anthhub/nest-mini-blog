@@ -40,7 +40,7 @@ export class LikeService {
       article: articleId,
       user: userId,
     })
-    return { like: !!obj }
+    return !!obj
   }
 
   async putArticleLike(articleId: string, userId: ObjectId): Promise<any> {

@@ -43,16 +43,20 @@ export class ArticleController {
     @Query('own') own: string = 'all',
     @Query('search') search: string,
     @Query('endCursor') endCursor: number,
+    @Req() req: IUserRequest,
   ): Promise<any> {
     const query = { own, search, endCursor: +endCursor }
 
-    return this.articleService.getArticles(query)
+    return this.articleService.getArticles(query, req.userId)
   }
 
   @Get(':id')
   @ApiOperation({ title: '获取文章详情' })
-  getArticleById(@Param('id') id: string): Promise<Partial<ArticleEntity>[]> {
-    return this.articleService.getArticle(id)
+  getArticleById(
+    @Param('id') id: string,
+    @Req() req: IUserRequest,
+  ): Promise<Partial<ArticleEntity>[]> {
+    return this.articleService.getArticle(id, req.userId)
   }
 
   @Patch(':id')
