@@ -39,10 +39,13 @@ const ENTITIES = [
   CommentEntity,
 ]
 
+// mongodb://root:123456@localhost:27017/blog'
+
 @Module({
   imports: [
     TypegooseModule.forRoot(
-      `mongodb://${username}:${password}@${host}:${port}/${db}`,
+      'mongodb://localhost:27017/blog',
+      // `mongodb://${username}:${password}@${host}:${port}/${db}`,
       { useNewUrlParser: true },
     ),
     TypegooseModule.forFeature([...ENTITIES]),
