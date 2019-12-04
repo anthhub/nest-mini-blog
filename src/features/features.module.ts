@@ -43,7 +43,7 @@ const ENTITIES = [
   imports: [
     TypegooseModule.forRoot(
       `mongodb://${username}:${password}@${host}:${port}/${db}`,
-      {},
+      { useNewUrlParser: true },
     ),
     TypegooseModule.forFeature([...ENTITIES]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
