@@ -44,8 +44,8 @@ const ENTITIES = [
 @Module({
   imports: [
     TypegooseModule.forRoot(
-      'mongodb://localhost:27017/blog',
-      // `mongodb://${username}:${password}@${host}:${port}/${db}`,
+      // 'mongodb://localhost:27017/blog',
+      `mongodb://${username}:${password}@${host}:${port}/${db}`,
       { useNewUrlParser: true },
     ),
     TypegooseModule.forFeature([...ENTITIES]),
