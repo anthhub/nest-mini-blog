@@ -168,7 +168,7 @@ export class ArticleService {
 
     return {
       edges,
-      pageInfo: { hasNextPage: true, endCursor: 20 },
+      pageInfo: { hasNextPage: !!edges.length, endCursor: endCursor + 20 },
     }
   }
 
