@@ -46,11 +46,11 @@ const ENTITIES = [
 @Module({
   imports: [
     TypegooseModule.forRoot(
-      'mongodb://root:123456@172.21.0.3:27017/blog?authSource=admin',
+      // 'mongodb://root:123456@172.21.0.3:27017/blog?authSource=admin',
 
       // 'mongodb://root:123456@172.17.0.2:27017/blog?authSource=admin',
 
-      // 'mongodb://root:123456@172.21.0.2:27017,172.21.0.3:27018,172.21.0.4:27019/blog?authSource=admin',
+      'mongodb://root:123456@172.21.0.2:27017,172.21.0.3:27018,172.21.0.4:27019/blog?authSource=admin',
       // `mongodb://${username}:${password}@${host}:${port}/${db},${host}:${port}/${db},${host}:${port}/${db}`,
       // { useNewUrlParser: true },
       // { useMongoClient: true },
