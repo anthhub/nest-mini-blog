@@ -46,7 +46,7 @@ const ENTITIES = [
 @Module({
   imports: [
     TypegooseModule.forRoot(
-      'mongodb://root:123456@172.21.0.2:27017/blog?authSource=admin',
+      'mongodb://root:123456@172.21.0.3:27017/blog?authSource=admin',
 
       // 'mongodb://root:123456@172.17.0.2:27017/blog?authSource=admin',
 
