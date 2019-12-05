@@ -4,10 +4,12 @@ WORKDIR /app
 
 COPY . /app
 
-RUN npm i pm2 -g \
-    && npm i \
-    && npm run build
+# RUN npm i pm2 -g \
+#     && npm i \
+#     && npm run build
 
 EXPOSE 3003
 
-CMD ["npm", "start"]
+# CMD ["npm", "start"]
+
+CMD 'npm i yarn -g && yarn && yarn start'
