@@ -7,8 +7,6 @@ import { CommonEntity } from './common.entity'
 export class UserEntity extends CommonEntity {
   @prop({
     comment: '邮箱',
-    index: true,
-    unique: true,
   })
   email: string
 
@@ -48,6 +46,9 @@ export class UserEntity extends CommonEntity {
 
   @prop({ unique: true })
   username: string
+
+  @prop({ default: false })
+  isFollowing: boolean
 
   // @arrayProp({ itemsRef: ArticleEntity })
   // Articles?: Ref<ArticleEntity>[]

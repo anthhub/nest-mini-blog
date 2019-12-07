@@ -1,12 +1,9 @@
-import { ObjectId } from 'mongodb'
 import { InjectModel } from 'nestjs-typegoose'
 import { SignUpDto } from 'src/features/dtos/signUp.dto'
 import { UpdateUserDto } from 'src/features/dtos/updateUser.dto'
 import { UserEntity } from 'src/features/entities/user.entity'
-import { Repository } from 'typeorm'
 
 import { Injectable } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
 import { ReturnModelType } from '@typegoose/typegoose'
 
 import { ArticleService } from '../article/article.service'

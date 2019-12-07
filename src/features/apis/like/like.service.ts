@@ -30,7 +30,7 @@ export class LikeService {
       .populate({ path: 'article', populate: 'user' })
 
     return {
-      edges: edges.map(item => item.article) as ArticleEntity[],
+      edges: edges.map(item => item.article).filter(Boolean) as ArticleEntity[],
       pageInfo: { hasNextPage: true, endCursor: 20 },
     }
   }

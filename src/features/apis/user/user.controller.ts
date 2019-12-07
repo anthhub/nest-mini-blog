@@ -58,8 +58,8 @@ export class UserController {
 
   @Get('/:id/followers')
   @ApiOperation({ title: '获取关注用户的人' })
-  myFollowers(@Param('id') id: string): Promise<any> {
-    return this.followService.getFollowersByUserId(id)
+  myFollowers(@Param('id') id: string, @Req() req: IUserRequest): Promise<any> {
+    return this.followService.getFollowersByUserId(id, req.userId)
   }
 
   @Get('/:id/following')

@@ -5,10 +5,8 @@ import { IPage } from 'src/features/interfaces/common.interface'
 import { Injectable } from '@nestjs/common'
 import { ReturnModelType } from '@typegoose/typegoose'
 
-import { Logger } from '../../../shared/utils/logger'
 import { CreateArticleDto } from '../../dtos/article.dto'
 import { ArticleEntity } from '../../entities/article.entity'
-import { FollowEntity } from '../../entities/follow.entity'
 import { CommentService } from '../comment/comment.service'
 import { LikeService } from '../like/like.service'
 
