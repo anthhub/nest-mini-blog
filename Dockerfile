@@ -8,5 +8,5 @@ RUN npm i yarn -g && yarn
 
 EXPOSE 3003
 
-CMD ["yarn", "start"]
+CMD ["yarn", "start-test"]
 

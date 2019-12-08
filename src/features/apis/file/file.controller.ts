@@ -52,7 +52,11 @@ export class FileController {
     }),
   )
   uploadFile(@UploadedFile() file, @Req() req: IUserRequest) {
-    file.url = `${'http://101.132.79.152'}/${file.filename}`
+    file.url =
+      process.env.API_ENV === 'development'
+        ? `http://${'localhost:3003'}/${file.filename}`
+        : `${'http://101.132.79.152'}/${file.filename}`
+
     console.log(file)
     return file
   }

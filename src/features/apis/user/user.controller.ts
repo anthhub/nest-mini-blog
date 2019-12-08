@@ -116,6 +116,19 @@ export class UserController {
     @Req() req: IUserRequest,
   ): Promise<any> {
     const curUser = req.user
+    console.log(
+      '%c%s',
+      'color: #20bd08;font-size:15px',
+      '===TQY===: UserController -> curUser',
+      curUser,
+    )
+    console.log(
+      '%c%s',
+      'color: #20bd08;font-size:15px',
+      '===TQY===: UserController -> updateUserDto',
+      updateUserDto,
+    )
+
     return await this.userService.updateUser(curUser, updateUserDto)
   }
 

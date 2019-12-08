@@ -73,6 +73,6 @@ export class UserService {
     curUser: UserEntity,
     updateUserDto: UpdateUserDto,
   ): Promise<any> {
-    return await this.userRepository.update(curUser, updateUserDto)
+    return await this.userRepository.update({ id: curUser.id }, updateUserDto)
   }
 }
