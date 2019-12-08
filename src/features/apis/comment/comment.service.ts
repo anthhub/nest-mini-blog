@@ -45,7 +45,11 @@ export class CommentService {
       })
       .populate({ path: 'user' })
       .populate({ path: 'respUser' })
-      .populate({ path: 'topComment', populate: 'user respUser' })
+      .populate({
+        path: 'topComment',
+        populate: 'user respUser',
+        options: { sort: { update_at: -1 } },
+      })
   }
 
   async comment(

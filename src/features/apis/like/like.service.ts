@@ -11,10 +11,13 @@ import { Logger } from '../../../shared/utils/logger'
 import { CreateArticleDto } from '../../dtos/article.dto'
 import { ArticleEntity } from '../../entities/article.entity'
 import { FollowEntity } from '../../entities/follow.entity'
+import { ArticleService } from '../article/article.service'
+import { CommentService } from '../comment/comment.service'
 
 @Injectable()
 export class LikeService {
   constructor(
+    private readonly commentService: CommentService,
     @InjectModel(LikeEntity)
     private readonly likeRepository: ReturnModelType<typeof LikeEntity>,
     @InjectModel(ArticleEntity)
@@ -22,15 +25,30 @@ export class LikeService {
   ) {}
 
   async getLikesByUserId(id: string): Promise<IPage<ArticleEntity>> {
-    const edges = await this.likeRepository
+    const list = (await this.likeRepository
       .find({ user: id }, null, {
         sort: { update_at: -1 }, // 按照 _id倒序排列
         // limit: 20, // 查询100条
       })
-      .populate({ path: 'article', populate: 'user' })
+      .populate({ path: 'article', populate: 'user' }))
+      .map(item => item.article)
+      .filter(Boolean) as ArticleEntity[]
+
+    const edges: any[] = await Promise.all(
+      list.map(async item => {
+        item.likeCount = await this.countArticleLike(
+          (item.id as unknown) as string,
+        )
+        item.commentCount = await this.commentService.countArticleComment(
+          (item.id as unknown) as string,
+        )
+        item.isLiked = true
+        return item
+      }),
+    )
 
     return {
-      edges: edges.map(item => item.article).filter(Boolean) as ArticleEntity[],
+      edges,
       pageInfo: { hasNextPage: true, endCursor: 20 },
     }
   }
