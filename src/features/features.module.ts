@@ -48,7 +48,7 @@ const ENTITIES = [
     TypegooseModule.forRoot(
       process.env.API_ENV === 'development'
         ? `mongodb://${username}:${password}@${host}:${port}/${db}`
-        : 'mongodb://root:123456@172.17.0.2:27017/blog?authSource=admin',
+        : 'mongodb://root:123456@localhost:27017/blog?authSource=admin',
 
       // { useNewUrlParser: true },
       // { useMongoClient: true },
