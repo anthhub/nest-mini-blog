@@ -1,66 +1,55 @@
-import * as bcrypt from 'bcryptjs'
-import { Exclude, Expose } from 'class-transformer'
-import { IsEmail } from 'class-validator'
-import { BeforeInsert, Column, Entity, ObjectID } from 'typeorm'
+import { Exclude } from 'class-transformer'
+
+import { arrayProp, prop, Ref, Typegoose } from '@typegoose/typegoose'
 
 import { CommonEntity } from './common.entity'
 
-@Entity('user')
 export class UserEntity extends CommonEntity {
-  @Column({
+  @prop({
     comment: '邮箱',
-    unique: true,
   })
-  @IsEmail()
   email: string
 
-  @Exclude({ toPlainOnly: true })
-  @Column({ comment: '密码' })
+  @prop({ comment: '密码', select: false })
   password: string
 
-  @Column()
+  @prop({})
   avatarHd: string
 
-  @Column()
+  @prop({})
   avatarLarge: string
 
-  @Column()
+  @prop()
   blogAddress: string
 
-  @Column()
+  @prop()
   company: string
 
-  @Column()
+  @prop()
   emailVerified: boolean
 
-  @Column()
+  @prop()
   jobTitle: string
 
-  @Column()
+  @prop({
+    comment: '手机号',
+    unique: true,
+    index: true,
+  })
   mobilePhoneNumber: string
 
-  @Column()
+  @prop()
   mobilePhoneVerified: boolean
 
-  @Column()
+  @prop()
   selfDescription: string
 
-  @Expose()
-  get uid(): ObjectID {
-    return this.id
-  }
-
-  @Expose()
-  get objectId(): ObjectID {
-    return this.id
-  }
-
-  @Column()
+  @prop({ unique: true })
   username: string
 
-  @BeforeInsert()
-  async beforeInsert() {
-    const salt = await bcrypt.genSalt(10)
-    this.password = await bcrypt.hash(this.password || '12345678', salt)
-  }
+  @prop({ default: false })
+  isFollowing: boolean
+
+  // @arrayProp({ itemsRef: ArticleEntity })
+  // Articles?: Ref<ArticleEntity>[]
 }

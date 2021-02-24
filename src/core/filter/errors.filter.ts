@@ -17,9 +17,10 @@ export class ExceptionsFilter implements ExceptionFilter {
     const response = ctx.getResponse()
     const request = ctx.getRequest()
 
-    Logger.error('exception', JSON.stringify(exception))
+    Logger.error('exception', exception)
 
-    let message = exception.message
+    let { message } = exception
+
     let isDeepestMessage = false
     while (!isDeepestMessage) {
       isDeepestMessage = !message.message
@@ -28,9 +29,9 @@ export class ExceptionsFilter implements ExceptionFilter {
 
     const errorResponse = {
       message: message || '请求失败',
-      status: 1,
+      status: exception.message && exception.message.status,
     }
-
+    // 技术错误
     if (exception instanceof HttpException) {
       const status = exception.getStatus()
       Logger.error(
@@ -41,26 +42,9 @@ export class ExceptionsFilter implements ExceptionFilter {
       response.header('Content-Type', 'application/json; charset=utf-8')
       response.send(errorResponse)
     } else {
-      if (!isProd) {
-        const youch = new Youch(exception, request)
-
-        const html = await youch
-          .addLink(link => {
-            const url = `https://stackoverflow.com/search?q=${encodeURIComponent(
-              `[adonis.js] ${link.message}`,
-            )}`
-            return `<a href="${url}" target="_blank" title="Search on StackOverflow">Search StackOverflow</a>`
-          })
-          .toHTML()
-
-        response.type('text/html')
-        response.status(HttpStatus.INTERNAL_SERVER_ERROR)
-        response.send(html)
-      } else {
-        response.status(HttpStatus.INTERNAL_SERVER_ERROR)
-        response.header('Content-Type', 'application/json; charset=utf-8')
-        response.send(errorResponse)
-      }
+      response.status(HttpStatus.INTERNAL_SERVER_ERROR)
+      response.header('Content-Type', 'application/json; charset=utf-8')
+      response.send(errorResponse)
     }
   }
 }

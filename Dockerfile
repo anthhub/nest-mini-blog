@@ -4,10 +4,9 @@ WORKDIR /app
 
 COPY . /app
 
-RUN npm i pm2 -g \
-    && npm i \
-    && npm run build
+RUN npm i yarn -g && yarn
 
-EXPOSE 3300
+EXPOSE 3003
 
-CMD ["npm", "prod"]
+CMD ["yarn", "start-test"]
+

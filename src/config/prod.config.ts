@@ -1,19 +1,14 @@
 import { resolve } from 'path'
 
 export default {
-  port: 3210,
+  port: 3003,
 
-  orm: {
-    type: 'mysql',
-    host: 'localhost',
-    port: 3306,
+  mongo: {
+    type: 'mongodb',
+    host: '172.0.0.1',
+    port: 27017,
     username: 'root',
     password: '123456',
-    database: 'blog',
-    entities: [resolve('./**/*.entity.js')],
-    migrations: ['migration/*.ts'],
-    dropSchema: false,
-    synchronize: false,
-    logging: false,
+    db: 'blog',
   },
 }

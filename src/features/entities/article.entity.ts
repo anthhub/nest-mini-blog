@@ -1,22 +1,42 @@
-import { Transform } from 'class-transformer'
-import { Column, Entity } from 'typeorm'
+import { arrayProp, post, prop, Ref } from '@typegoose/typegoose'
 
 import { CommonEntity } from './common.entity'
+import { UserEntity } from './user.entity'
 
-@Entity('article')
 export class ArticleEntity extends CommonEntity {
-  @Column()
+  @prop()
   author: string
 
-  @Column()
+  @prop()
   content: string
 
-  @Column()
+  @prop({ default: 0 })
+  viewCount: number
+
+  @prop()
+  html: string
+
+  @prop()
   title: string
 
-  @Column()
+  @prop()
   screenshot: string
 
-  @Column()
+  @prop()
   type: string
+
+  // @arrayProp({ items: String })
+  // tag: string[]
+
+  @prop({ ref: UserEntity })
+  user: Ref<UserEntity>
+
+  @prop({ default: false })
+  isLiked: boolean
+
+  @prop({ default: 0 })
+  likeCount: number
+
+  @prop({ default: 0 })
+  commentCount: number
 }

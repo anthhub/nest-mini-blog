@@ -1,7 +1,9 @@
-import { Body, Controller, Post } from '@nestjs/common'
-import { ApiImplicitBody, ApiUseTags } from '@nestjs/swagger'
+import { Body, Controller, Post, Request } from '@nestjs/common'
+import { ApiImplicitBody, ApiOperation, ApiUseTags } from '@nestjs/swagger'
+import { SignInDto } from 'src/features/dtos/signIn.dto'
+import { UserEntity } from 'src/features/entities/user.entity'
 
-import { AccountDto } from '../../dtos/account.dto'
+import { SignUpDto } from '../../dtos/signUp.dto'
 import { IToken } from '../../interfaces/auth.interface'
 
 import { AccountService } from './account.service'
@@ -13,13 +15,15 @@ export class AccountController {
 
   // 注册
   @Post('signUp')
-  async signUp(@Body() authDto: AccountDto): Promise<void> {
-    return await this.accountService.signUp(authDto)
+  @ApiOperation({ title: '注册' })
+  async signUp(@Body() signUpDto: SignUpDto): Promise<void> {
+    return await this.accountService.signUp(signUpDto)
   }
 
   // 登录
   @Post('signIn')
-  async signIn(@Body() authDto: AccountDto): Promise<IToken> {
-    return await this.accountService.signIn(authDto)
+  @ApiOperation({ title: '登录' })
+  async signIn(@Body() signInDto: SignInDto): Promise<IToken | UserEntity> {
+    return await this.accountService.signIn(signInDto)
   }
 }

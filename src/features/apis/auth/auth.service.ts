@@ -9,21 +9,20 @@ import { IToken } from '../../interfaces/auth.interface'
 
 @Injectable()
 export class AuthService {
-  constructor(
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
-    private readonly jwtService: JwtService,
-  ) {}
+  constructor(private readonly jwtService: JwtService) {}
 
-  createToken(email: string): IToken {
-    const accessToken = this.jwtService.sign({ email })
+  createToken(id: string): IToken {
+    console.log(
+      '%c%s',
+      'color: #20bd08;font-size:15px',
+      '===TQY===: AuthService -> constructor -> id',
+      id,
+    )
+    const accessToken = this.jwtService.sign({ id })
+
     return {
       expires_in: config.jwt.signOptions.expiresIn,
       access_token: accessToken,
     }
-  }
-
-  async validateUser(payload: UserEntity): Promise<any> {
-    return await this.userRepository.find({ email: payload.email })
   }
 }
