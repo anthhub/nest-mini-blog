@@ -54,6 +54,8 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TransformInterceptor())
   app.useGlobalPipes(new ValidationPipe())
 
+  config.port = 7700
+
   await app.listen(config.port, config.hostName, () => {
     Logger.log(
       `Awesome-nest API server has been started on http://${config.hostName}:${config.port}`,
