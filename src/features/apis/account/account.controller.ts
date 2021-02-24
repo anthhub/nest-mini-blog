@@ -1,7 +1,7 @@
 import { Body, Controller, Post, Request } from '@nestjs/common'
-import { ApiImplicitBody, ApiOperation, ApiUseTags } from '@nestjs/swagger'
-import { SignInDto } from 'src/features/dtos/signIn.dto'
-import { UserEntity } from 'src/features/entities/user.entity'
+import { ApiOperation, ApiUseTags } from '@nestjs/swagger'
+import { SignInDto } from '../../dtos/signIn.dto'
+import { UserEntity } from '../../entities/user.entity'
 
 import { SignUpDto } from '../../dtos/signUp.dto'
 import { IToken } from '../../interfaces/auth.interface'

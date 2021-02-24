@@ -1,8 +1,6 @@
-import { SignInDto } from 'src/features/dtos/signIn.dto'
-import { UpdateUserDto } from 'src/features/dtos/updateUser.dto'
-import { ArticleEntity } from 'src/features/entities/article.entity'
-import { UserEntity } from 'src/features/entities/user.entity'
-import { IUserRequest } from 'src/features/interfaces/auth.interface'
+import { UpdateUserDto } from '../../dtos/updateUser.dto'
+
+import { IUserRequest } from '../../interfaces/auth.interface'
 
 import {
   Body,

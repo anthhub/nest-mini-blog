@@ -1,7 +1,6 @@
 import { ObjectId } from 'mongodb'
 import { InjectModel } from 'nestjs-typegoose'
-import { UserEntity } from 'src/features/entities/user.entity'
-import { IPage } from 'src/features/interfaces/common.interface'
+import { IPage } from '../../interfaces/common.interface'
 
 import { Injectable } from '@nestjs/common'
 import { ReturnModelType } from '@typegoose/typegoose'

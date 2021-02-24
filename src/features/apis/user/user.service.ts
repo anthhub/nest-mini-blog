@@ -1,7 +1,7 @@
 import { InjectModel } from 'nestjs-typegoose'
-import { SignUpDto } from 'src/features/dtos/signUp.dto'
-import { UpdateUserDto } from 'src/features/dtos/updateUser.dto'
-import { UserEntity } from 'src/features/entities/user.entity'
+import { SignUpDto } from '../../dtos/signUp.dto'
+import { UpdateUserDto } from '../../dtos/updateUser.dto'
+import { UserEntity } from '../../entities/user.entity'
 
 import { Injectable } from '@nestjs/common'
 import { ReturnModelType } from '@typegoose/typegoose'

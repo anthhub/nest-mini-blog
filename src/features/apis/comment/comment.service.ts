@@ -1,10 +1,10 @@
 import { InjectModel } from 'nestjs-typegoose'
-import { CommentEntity } from 'src/features/entities/comment.entity'
+import { CommentEntity } from '../../entities/comment.entity'
 
 import { Injectable } from '@nestjs/common'
 import { ReturnModelType } from '@typegoose/typegoose'
 import { ObjectId, ObjectID } from 'mongodb'
-import { CreateCommentDto } from 'src/features/dtos/comment.dto'
+import { CreateCommentDto } from '../../dtos/comment.dto'
 
 @Injectable()
 export class CommentService {

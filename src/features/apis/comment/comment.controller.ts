@@ -1,7 +1,6 @@
-import { CreateCommentDto } from 'src/features/dtos/comment.dto'
-import { ArticleEntity } from 'src/features/entities/article.entity'
-import { IUserRequest } from 'src/features/interfaces/auth.interface'
-import { EntityManager, Transaction, TransactionManager } from 'typeorm'
+import { CreateCommentDto } from '../../dtos/comment.dto'
+import { ArticleEntity } from '../../entities/article.entity'
+import { IUserRequest } from '../../interfaces/auth.interface'
 
 import {
   Body,
