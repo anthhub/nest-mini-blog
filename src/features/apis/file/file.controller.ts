@@ -47,7 +47,7 @@ export class FileController {
       },
       storage: multer.diskStorage({
         destination: (req, file, cb) => {
-          cb(null, '../../../static')
+          cb(null, '../../static')
         },
         filename: (req, file, cb) => {
           const name = file.originalname.split('.')
@@ -69,7 +69,7 @@ export class FileController {
   @Get('upload/:filename')
   @ApiOperation({ title: '下载图片' })
   getFile(@Param('filename') filename: string, @Res() resp) {
-    return fs.createWriteStream('../../../static/' + filename).pipe(resp)
+    return fs.createWriteStream('../../static/' + filename).pipe(resp)
 
     // return new Promise((resolve, reject) => {
     //   fs.readFile(filename, (err, data) => {
