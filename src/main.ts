@@ -39,13 +39,13 @@ async function bootstrap() {
     cors: true,
   })
 
+  app.useStaticAssets(join(__dirname, '..', 'static'))
+  // app.setBaseViewsDir(join(__dirname, '..', 'views'))
+  // app.setViewEngine('hbs')
+
   app.setGlobalPrefix(API_PREFIX)
 
   await initSwagger(app)
-
-  // app.useStaticAssets(join(__dirname, '..', 'static'))
-  // app.setBaseViewsDir(join(__dirname, '..', 'views'))
-  // app.setViewEngine('hbs')
 
   app.use(helmet())
   app.use(

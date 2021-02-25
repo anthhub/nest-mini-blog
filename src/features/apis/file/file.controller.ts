@@ -1,7 +1,10 @@
 import {
   Controller,
+  Get,
+  Param,
   Post,
   Req,
+  Res,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -16,11 +19,13 @@ import {
   ApiOperation,
   ApiUseTags,
 } from '@nestjs/swagger'
+import * as fs from 'fs'
 
 import { IUserRequest } from '../../interfaces/auth.interface'
 
 import multer = require('multer')
-import * as os from 'os'
+
+const base = 'http://118.190.37.169'
 
 @ApiUseTags('file')
 @ApiBearerAuth()
@@ -42,7 +47,7 @@ export class FileController {
       },
       storage: multer.diskStorage({
         destination: (req, file, cb) => {
-          cb(null, './upload/')
+          cb(null, '../../../static')
         },
         filename: (req, file, cb) => {
           const name = file.originalname.split('.')
@@ -55,9 +60,39 @@ export class FileController {
     file.url =
       process.env.API_ENV === 'development'
         ? `http://${'localhost:3003'}/${file.filename}`
-        : `${'http://101.132.79.152'}/${file.filename}`
+        : `${base}:8001/${file.filename}`
 
     console.log(file)
     return file
+  }
+
+  @Get('upload/:filename')
+  @ApiOperation({ title: '下载图片' })
+  getFile(@Param('filename') filename: string, @Res() resp) {
+    return fs.createWriteStream('../../../static/' + filename).pipe(resp)
+
+    // return new Promise((resolve, reject) => {
+    //   fs.readFile(filename, (err, data) => {
+    //     if (err) {
+    //       console.error(err)
+    //       reject(err)
+    //       return
+    //     }
+
+    //     const stream = fs.createWriteStream('../../../static/' + filename)
+    //     var responseData = [] //存储文件流
+    //     if (stream) {
+    //       //判断状态
+    //       stream.on('data', function(chunk) {
+    //         responseData.push(chunk)
+    //       })
+    //       stream.on('end', function() {
+    //         var finalData = Buffer.concat(responseData)
+    //         resp.write(finalData)
+    //         resp.end()
+    //       })
+    //     }
+    //   })
+    // })
   }
 }
