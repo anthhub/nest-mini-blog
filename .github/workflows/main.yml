@@ -33,4 +33,4 @@ jobs:
         with:
           hosts: "118.190.37.169"
           privateKey: ${{ secrets.PRIVATE_KEY }}
-          command: cd /root/web/anthhub/deploy/nest-mini-blog/dist && npm i && npm i pm2 -g && pm2 start main.js --name 'awesome-nest' --env production
+          command: cd /root/web/anthhub/deploy/nest-mini-blog/dist && npm i && npm i pm2 -g && pm2 delete awesome-nest && pm2 start main.js --name 'awesome-nest' --env production
