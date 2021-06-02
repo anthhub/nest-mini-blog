@@ -14,7 +14,7 @@ import { user } from './core/middleware/user.middleware'
 import { ValidationPipe } from './core/pipe/validation.pipe'
 import { Logger } from './shared/utils/logger'
 
-const API_HOST = 'blog-test'
+const API_HOST = 'blog'
 
 const API_VERSION = '/api/v1'
 
@@ -60,7 +60,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TransformInterceptor())
   app.useGlobalPipes(new ValidationPipe())
 
-  config.port = 7700
+  config.port = 8000
 
   await app.listen(config.port, config.hostName, () => {
     console.log(`http://${config.hostName}:${config.port}`)

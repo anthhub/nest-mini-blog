@@ -1,12 +1,12 @@
 {
-  "name": "awesome-nest",
+  "name": "nest-mini-blog",
   "version": "0.0.1",
   "description": "",
   "author": "",
   "license": "MIT",
   "scripts": {
-    "prod": "cross-env NODE_ENV=production pm2 start dist/main.js --name 'awesome-nest'",
-    "stop": "pm2 delete awesome-nest",
+    "prod": "cross-env NODE_ENV=production pm2 start dist/main.js --name 'nest-mini-blog'",
+    "stop": "pm2 delete nest-mini-blog",
     "build": "tsc -p tsconfig.build.json && cp -R ./package.json ./dist/package.json",
     "format": "prettier --config .prettierrc --write \"src/**/*.ts\"",
     "start": "cross-env API_ENV=development ts-node -r tsconfig-paths/register src/main.ts",
