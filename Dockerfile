@@ -1,33 +1,18 @@
-# FROM node:10.15.3
-
-# WORKDIR /app
-
-# COPY . /app
-
-# RUN npm i yarn -g && yarn
-
-# EXPOSE 3003
-
-# CMD ["yarn", "start-test"]
-
-
 FROM node:12.18.3 AS builder
+RUN npm install -g yarn --force 
 
 WORKDIR /code
 ADD . /code
 
-RUN npm config set -g production false
-RUN npm install
-RUN npm install nestjs/core
-
-ENV NODE_ENV production
-RUN npm run build
+RUN yarn
+RUN yarn build
 
 FROM node:12.18.3-alpine
-COPY --from=builder /code/dist .
+COPY --from=builder /code/dist ./dist
+COPY --from=builder /code/node_modules ./node_modules
 COPY static ./static
 COPY views ./views
-USER 1000
+
 EXPOSE 8000
 ENV NODE_ENV production
-CMD ["node", "main.js"]
+CMD ["node", "/dist/main.js"]

@@ -39,18 +39,11 @@ const ENTITIES = [
   CommentEntity,
 ]
 
-// mongodb://root:123456@localhost:27017/blog'
-
-// 172.21.0.2
-
 @Module({
   imports: [
     TypegooseModule.forRoot(
-      process.env.API_ENV === 'development'
-        ? `mongodb://${username}:${password}@${host}:${port}/${db}`
-        : 'mongodb://root:123456@localhost:27017/blog?authSource=admin',
-
-      // { useNewUrlParser: true },
+      `mongodb://${username}:${password}@${host}:${port}/${db}?authSource=admin`,
+      { useNewUrlParser: true },
       // { useMongoClient: true },
     ),
     TypegooseModule.forFeature([...ENTITIES]),

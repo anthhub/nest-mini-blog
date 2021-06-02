@@ -71,7 +71,7 @@ export class FollowService {
     }
   }
 
-  async putUserFollow(following: string, follower: ObjectId): Promise<any> {
+  async putUserFollow(following: string, follower: ObjectId): Promise<a n y >  {
     const obj: any = await this.followRepository.findOne({
       following,
       follower,
@@ -87,21 +87,21 @@ export class FollowService {
     }).save()
   }
 
-  async deleteUserFollow(following: string, follower: ObjectId): Promise<any> {
+  async deleteUserFollow(following: string, follower: ObjectId): Promise < a n y >  {
     return await this.followRepository.findOneAndRemove({
       following,
       follower,
     })
   }
 
-  async getFollowingCount(follower: string): Promise<any> {
+  async getFollowingCount(follower: string): Promise < a n y >  {
     return await this.followRepository.count({
       follower,
       following: { $nin: [null] },
     })
   }
 
-  async getFollowersCount(following: string): Promise<any> {
+  async getFollowersCount(following: string): Promise < a n y >  {
     return await this.followRepository.count({
       following,
       follower: { $nin: [null] },
