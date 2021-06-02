@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-svc
+  labels:
+    app: mongo
+spec:
+  ports:
+    - port: {{ .Values.db.port }}
+      name: mongo
+      nodePort: {{ .Values.db.port }}
+  type: NodePort
+  selector:
+    app: mongo
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo
+spec:
+  selector:
+    matchLabels:
+      app: mongo 
+  serviceName: 'mongo'
+  replicas: {{ .Values.db.replicas }}
+  template:
+    metadata:
+      labels:
+        app: mongo 
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: mongo
+          image: {{ .Values.db.image }}
+          ports:
+            - containerPort: {{ .Values.db.port }}
+              name: mongo
+          volumeMounts:
+            - name: host-path
+              mountPath: /data/db
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: 'mongoadmin'
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: 'secret'
+      volumes:
+        - name: host-path
+          hostPath:
+            path: /tmp/mongo/data/db
+            type: DirectoryOrCreate
