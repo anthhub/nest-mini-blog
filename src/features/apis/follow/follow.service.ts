@@ -28,7 +28,7 @@ export class FollowService {
     if (userId) {
       edges = await Promise.all(
         edges.map(async item => {
-          (item.follower as any).isFollowing = await this.isFollowing(
+          ;(item.follower as any).isFollowing = await this.isFollowing(
             (item.follower as any).id,
             userId,
           )
@@ -61,7 +61,7 @@ export class FollowService {
       .populate({ path: 'following' })).filter(item => !!item.following)
 
     edges = edges.map(item => {
-      (item.following as any).isFollowing = true
+      ;(item.following as any).isFollowing = true
       return item
     })
 

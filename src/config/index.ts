@@ -4,13 +4,6 @@ import { resolve } from 'path'
 import productionConfig from './prod.config'
 
 export const isProd = process.env.NODE_ENV === 'production'
-console.log(
-  '%c%s',
-  'color: #20bd08;font-size:15px',
-  '===TQY===: isProdAPI_ENV',
-  isProd,
-  process.env.API_ENV,
-)
 
 // mongodb://root:123456@localhost:27017/blog'
 
@@ -20,7 +13,7 @@ let config = {
 
   mongoConfig: {
     type: 'mongodb',
-    host: process.env.API_ENV === 'development' ? 'localhost' : '172.17.0.2',
+    host: '10.180.9.102',
     port: 27017,
     username: 'root',
     password: '123456',

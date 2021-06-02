@@ -3,3 +3,6 @@ logs/
 .github/
 .vscode/
 test/
+package-lock.json
+.cache/
+dist/

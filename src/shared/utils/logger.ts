@@ -93,7 +93,7 @@ if (isProd) {
   Log4js.configure({
     appenders: {
       fileAppender: {
-        type: 'DateFile',
+        type: 'dateFile',
         filename: './logs/prod.log',
         pattern: '-yyyy-MM-dd.log',
         alwaysIncludePattern: true,

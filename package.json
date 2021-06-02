@@ -121,12 +121,6 @@
     ],
     "testEnvironment": "node"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -e $GIT_PARAMS"
-    }
-  },
   "lint-staged": {
     "src/**/*.ts": [
       "npm run format",
