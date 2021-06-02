@@ -4,9 +4,9 @@
 
 db:
   image: mongo:latest
+  nodePort: 30001
   port: 27017
   replicas: 1
-  nodePort: 30001
 
 image:
   rigistry: registry.cn-qingdao.aliyuncs.com
@@ -20,7 +20,7 @@ pod:
 service:
   # type: NodePort
   # nodePort: 30002
-  port: 80
+  port: 8000
   app: nest-mini-blog
 
 route:
