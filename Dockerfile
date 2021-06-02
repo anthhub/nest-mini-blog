@@ -5,6 +5,7 @@ WORKDIR /code
 ADD . /code
 
 RUN yarn
+ENV NODE_ENV production
 RUN yarn build
 
 FROM node:12.18.3-alpine

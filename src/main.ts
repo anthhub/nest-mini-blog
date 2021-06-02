@@ -64,6 +64,7 @@ async function bootstrap() {
 
   await app.listen(config.port, config.hostName, () => {
     console.log(`http://${config.hostName}:${config.port}`)
+    console.log(`NODE_ENV: ${process.env.NODE_ENV}`)
 
     Logger.log(
       `Awesome-nest API server has been started on http://${config.hostName}:${config.port}`,
