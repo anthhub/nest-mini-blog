@@ -6,6 +6,7 @@ db:
   image: mongo:latest
   port: 27017
   replicas: 1
+  nodePort: 30001
 
 image:
   rigistry: registry.cn-qingdao.aliyuncs.com

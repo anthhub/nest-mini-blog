@@ -8,7 +8,7 @@ spec:
   ports:
     - port: {{ .Values.db.port }}
       name: mongo
-      nodePort: {{ .Values.db.port }}
+      nodePort: {{ .Values.db.nodePort }} 
   type: NodePort
   selector:
     app: mongo
