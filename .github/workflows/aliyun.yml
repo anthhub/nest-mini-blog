@@ -12,7 +12,6 @@ env:
   REPO: https://anthhub.github.io/nest-mini-blog
   REQ: $(curl -s https://anthhub.github.io/nest-mini-blog/latest?q=$RANDOM) 
   APP: nest-mini-blog
-  HOST: "118.190.37.169"
   DOMAIN: anthhub/nest-mini-blog
 
 jobs:
@@ -33,7 +32,7 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
-  
+ 
       - name: Cache NPM Dependences
         uses: actions/cache@v2
         with:
@@ -72,7 +71,7 @@ jobs:
         timeout-minutes: 10
         uses: JimCronqvist/action-ssh@master
         with:
-          hosts: ${{ env.HOST }}
+          hosts: ${{ env.ALI_HOST }}
           privateKey: ${{ secrets.PRIVATE_KEY }}
           command: |
             function error_exit {

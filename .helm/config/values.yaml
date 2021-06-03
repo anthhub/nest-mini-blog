@@ -9,8 +9,8 @@ db:
   replicas: 1
 
 image:
-  rigistry: registry.cn-qingdao.aliyuncs.com
-  repository: registry.cn-qingdao.aliyuncs.com/anthhub/nest-mini-blog
+  rigistry: registry.cn-shanghai.aliyuncs.com
+  repository: registry.cn-shanghai.aliyuncs.com/anthhub/nest-mini-blog
   tag: latest
   # pullPolicy: IfNotPresent
 
