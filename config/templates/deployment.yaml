@@ -28,14 +28,22 @@ spec:
     spec:
       imagePullSecrets:
         - name: liuma-registry
+      volumes:
+        - name: host-path-image
+          hostPath:
+            path: /tmp/nest-mini-blog/static
+            type: DirectoryOrCreate
       containers:
         - name: {{ .Values.service.app }}
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          volumeMounts:
+            - name: host-path-image
+              mountPath: /static
           env:
             - name: DB_PORT
-              value: {{ .Values.db.port }}
+              value: "{{ .Values.db.port }}"
             - name: DB_HOST
-              value: {{ .Values.db.host }}
+              value: "{{ .Values.db.host }}"
             - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:
