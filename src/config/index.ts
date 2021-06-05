@@ -8,7 +8,7 @@ export const isProd = process.env.NODE_ENV === 'production'
 // mongodb://root:123456@localhost:27017/blog'
 
 let config = {
-  port: 3003,
+  port: 8000,
   hostName: '0.0.0.0',
 
   mongoConfig: {

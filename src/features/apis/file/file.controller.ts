@@ -25,8 +25,6 @@ import { IUserRequest } from '../../interfaces/auth.interface'
 
 import multer = require('multer')
 
-const base = 'http://118.190.37.169'
-
 @ApiUseTags('file')
 @ApiBearerAuth()
 @Controller('file')
@@ -59,8 +57,8 @@ export class FileController {
   uploadFile(@UploadedFile() file, @Req() req: IUserRequest) {
     file.url =
       process.env.API_ENV === 'development'
-        ? `http://${'localhost:3003'}/${file.filename}`
-        : `${base}:8001/${file.filename}`
+        ? `http://${'localhost:8000'}/${file.filename}`
+        : `njj.liuma.top/${file.filename}`
 
     console.log(file)
     return file

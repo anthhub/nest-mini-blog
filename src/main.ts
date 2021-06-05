@@ -60,8 +60,6 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TransformInterceptor())
   app.useGlobalPipes(new ValidationPipe())
 
-  config.port = 8000
-
   await app.listen(config.port, config.hostName, () => {
     console.log(`http://${config.hostName}:${config.port}`)
     console.log(`NODE_ENV: ${process.env.NODE_ENV}`)
