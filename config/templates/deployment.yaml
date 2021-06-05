@@ -41,7 +41,7 @@ spec:
               mountPath: /static
           env:
             - name: DB_PORT
-              value: "{{ .Values.db.port }}"
+              value: "{{ .Values.db.nodePort }}"
             - name: DB_HOST
               value: "{{ .Values.db.host }}"
             - name: DB_USERNAME

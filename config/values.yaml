@@ -4,7 +4,7 @@
 
 db:
   image: mongo:latest
-  nodePort: 30001
+  nodePort: 37017
   port: 27017
   replicas: 1
   host: 106.15.90.38
