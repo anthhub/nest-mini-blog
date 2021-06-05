@@ -38,14 +38,14 @@ spec:
               value: {{ .Values.db.host }}
             - name: DB_USERNAME
               valueFrom:
-                  secretKeyRef:
-                    name: db-password-test
-                    key: MONGO_INITDB_ROOT_USERNAME
+                secretKeyRef:
+                  name: db-password-test
+                  key: MONGO_INITDB_ROOT_USERNAME
             - name: DB_PASSWORD
               valueFrom:
-                  secretKeyRef:
-                    name: db-password-test
-                     key: MONGO_INITDB_ROOT_PASSWORD
+                secretKeyRef:
+                  name: db-password-test
+                  key: MONGO_INITDB_ROOT_PASSWORD
           # resources:
           #   requests:
           #     memory: {{ .Values.resources.requests.memory }}
