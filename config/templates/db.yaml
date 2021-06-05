@@ -40,11 +40,19 @@ spec:
               mountPath: /data/db
           env:
             - name: MONGO_INITDB_ROOT_USERNAME
-              value: 'mongoadmin'
+              valueFrom:
+                  secretKeyRef:
+                    name: db-password-test
+                    key: MONGO_INITDB_ROOT_USERNAME
             - name: MONGO_INITDB_ROOT_PASSWORD
-              value: 'secret'
+              valueFrom:
+                  secretKeyRef:
+                    name: db-password-test
+                    key: MONGO_INITDB_ROOT_PASSWORD
       volumes:
         - name: host-path
           hostPath:
             path: /tmp/mongo/data/db
             type: DirectoryOrCreate
+
+

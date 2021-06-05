@@ -7,6 +7,7 @@ db:
   nodePort: 30001
   port: 27017
   replicas: 1
+  host: 106.15.90.38
 
 image:
   rigistry: registry.cn-shanghai.aliyuncs.com
