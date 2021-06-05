@@ -24,7 +24,7 @@ service:
   app: nest-mini-blog
 
 route:
-  host: ntt.liuma.top
+  host: njj.liuma.top
 
 resources:
   requests:
