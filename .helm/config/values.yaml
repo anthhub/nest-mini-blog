@@ -4,7 +4,7 @@
 
 db:
   image: mongo:latest
-  nodePort: 30001
+  nodePort: 30091
   port: 27017
   replicas: 1
   host: 106.15.90.38
@@ -16,7 +16,7 @@ image:
   # pullPolicy: IfNotPresent
 
 pod:
-  replicas: 1
+  replicas: 2
 
 service:
   # type: NodePort

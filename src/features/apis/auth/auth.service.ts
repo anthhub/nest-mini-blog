@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import config from '../../../config'
+import { getConfig } from '../../../config'
 import { UserEntity } from '../../entities/user.entity'
 import { IToken } from '../../interfaces/auth.interface'
 
@@ -21,7 +21,7 @@ export class AuthService {
     const accessToken = this.jwtService.sign({ id })
 
     return {
-      expires_in: config.jwt.signOptions.expiresIn,
+      expires_in: getConfig().jwt.signOptions.expiresIn,
       access_token: accessToken,
     }
   }

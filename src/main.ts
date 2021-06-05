@@ -6,13 +6,17 @@ import * as helmet from 'helmet'
 import { join } from 'path'
 
 import { AppModule } from './app.module'
-import config from './config'
+import { getConfig } from './config'
 import { ExceptionsFilter } from './core/filter/errors.filter'
 import { TransformInterceptor } from './core/interceptor/transform.interceptor'
 import { logger } from './core/middleware/logger.middleware'
 import { user } from './core/middleware/user.middleware'
 import { ValidationPipe } from './core/pipe/validation.pipe'
 import { Logger } from './shared/utils/logger'
+
+console.log(`NODE_ENV: ${process.env.NODE_ENV}`)
+
+const config = getConfig()
 
 const API_HOST = 'blog'
 
@@ -39,7 +43,8 @@ async function bootstrap() {
     cors: true,
   })
 
-  app.useStaticAssets(join(__dirname, '..', 'static'))
+  const dir = join(__dirname, '..', 'static')
+  app.useStaticAssets(dir)
   // app.setBaseViewsDir(join(__dirname, '..', 'views'))
   // app.setViewEngine('hbs')
 
@@ -62,7 +67,6 @@ async function bootstrap() {
 
   await app.listen(config.port, config.hostName, () => {
     console.log(`http://${config.hostName}:${config.port}`)
-    console.log(`NODE_ENV: ${process.env.NODE_ENV}`)
 
     Logger.log(
       `Awesome-nest API server has been started on http://${config.hostName}:${config.port}`,

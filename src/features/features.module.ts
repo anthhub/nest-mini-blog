@@ -4,7 +4,7 @@ import { Module } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'
 
-import config from '../config'
+import { getConfig } from '../config'
 import { AccountController } from './apis/account/account.controller'
 import { AccountService } from './apis/account/account.service'
 import { ArticleController } from './apis/article/article.controller'
@@ -29,7 +29,10 @@ import { UserEntity } from './entities/user.entity'
 
 const {
   mongoConfig: { username, password, host, port, db },
-} = config
+  jwt,
+} = getConfig()
+
+console.log('getConfig: ', getConfig())
 
 const ENTITIES = [
   UserEntity,
@@ -48,7 +51,7 @@ const ENTITIES = [
     ),
     TypegooseModule.forFeature([...ENTITIES]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.register(config.jwt),
+    JwtModule.register(jwt),
   ],
   controllers: [
     ArticleController,
